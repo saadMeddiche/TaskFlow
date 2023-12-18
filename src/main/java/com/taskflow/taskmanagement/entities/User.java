@@ -45,7 +45,12 @@ public class User {
     @Embedded
     private Password password;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     @JsonIgnoreProperties("users")
     private List<Role> roles;
 

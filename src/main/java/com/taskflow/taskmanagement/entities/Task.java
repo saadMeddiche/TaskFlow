@@ -54,7 +54,12 @@ public class Task {
     @Enumerated(value = EnumType.STRING)
     private TaskStatus status;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "task_tag",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
     @JsonIgnoreProperties("tasks")
     private List<Tag> tags;
 

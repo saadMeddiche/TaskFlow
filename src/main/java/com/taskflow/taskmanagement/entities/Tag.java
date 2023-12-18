@@ -25,7 +25,7 @@ public class Tag {
     @Pattern(regexp = "^[^\\s]*$", message = "No space allowed in tag name")
     private String name;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "tags")
     @JsonIgnoreProperties("tags")
     private List<Task> tasks;
 
