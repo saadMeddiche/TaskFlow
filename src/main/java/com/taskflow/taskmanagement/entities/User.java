@@ -1,6 +1,7 @@
 package com.taskflow.taskmanagement.entities;
 
 import com.taskflow.taskmanagement.embeddables.AddressEmail;
+import com.taskflow.taskmanagement.embeddables.FullName;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

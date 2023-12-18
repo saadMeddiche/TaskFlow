@@ -16,7 +16,6 @@ import lombok.*;
 @ToString
 public class AddressEmail {
 
-    @NotEmpty(message = "The address email can not be empty")
     @NotNull(message = "The address email can not be null")
     @NotBlank(message = "The address email can not be blank")
     @Email(message = "Invalid email format")
