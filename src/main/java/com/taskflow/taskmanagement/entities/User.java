@@ -1,5 +1,6 @@
 package com.taskflow.taskmanagement.entities;
 
+import com.taskflow.taskmanagement.embeddables.AddressEmail;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -19,7 +20,7 @@ public class User {
 
     private String username;
 
-    private Email email;
+    private AddressEmail email;
 
     private FullName fullName;
 
