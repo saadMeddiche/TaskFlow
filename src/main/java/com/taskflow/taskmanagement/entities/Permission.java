@@ -15,25 +15,21 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Role {
+public class Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
 
-    @NotNull(message = "The name of role can not be null")
-    @NotBlank(message = "The name of role can not be blank")
-    @Pattern(regexp = "^[^\\s]*$", message = "No space allowed in name of role")
+    @NotNull(message = "The name of permission can not be null")
+    @NotBlank(message = "The name of permission can not be blank")
+    @Pattern(regexp = "^[^\\s]*$", message = "No space allowed in name of permission")
     @Column(nullable = false)
     private String name;
 
     @ManyToMany
-    @JsonIgnoreProperties("roles")
-    private List<User> users;
-
-    @ManyToMany
-    @JsonIgnoreProperties("roles")
-    private List<Permission> permissions;
+    @JsonIgnoreProperties("permissions")
+    private List<Role> roles;
 
 }
