@@ -1,6 +1,7 @@
 package com.taskflow.taskmanagement.entities;
 
 import com.taskflow.taskmanagement.enums.TaskStatus;
+import com.taskflow.taskmanagement.validations.EnumValue;
 import com.taskflow.taskmanagement.validations.ThreeDaysMaxFromNow;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -47,7 +48,8 @@ public class Task {
     @ManyToOne
     private User assignedTo;
 
-    @Enumerated
+    @EnumValue(enumClass = TaskStatus.class , message = "The Status Of Task Can Only Be 'Done' or 'UnDone' or 'InProgress'")
+    @Enumerated(value = EnumType.STRING)
     private TaskStatus status;
 
 }

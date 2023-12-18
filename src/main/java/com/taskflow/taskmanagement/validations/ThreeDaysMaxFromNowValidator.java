@@ -6,7 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public  class ThreeDaysMaxFromNowValidator implements ConstraintValidator<ThreeDaysMaxFromNow, LocalDate> {
+public class ThreeDaysMaxFromNowValidator implements ConstraintValidator<ThreeDaysMaxFromNow, LocalDate> {
 
     @Override
     public boolean isValid(LocalDate date, ConstraintValidatorContext context) {
