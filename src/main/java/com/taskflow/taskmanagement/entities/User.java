@@ -49,4 +49,11 @@ public class User {
     @JsonIgnoreProperties("users")
     private List<Role> roles;
 
+    public User(String username, String email, String firstName, String middleName , String lastName,  String password) {
+        this.username = username;
+        this.email = new AddressEmail(email);
+        this.name = new FullName(firstName, middleName, lastName);
+        this.password = new Password(password);
+    }
+
 }
