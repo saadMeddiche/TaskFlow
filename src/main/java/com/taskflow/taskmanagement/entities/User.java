@@ -49,6 +49,9 @@ public class User {
     @JsonIgnoreProperties("users")
     private List<Role> roles;
 
+    @OneToMany
+    private List<Card> cards;
+
     public User(String username, String email, String firstName, String middleName , String lastName,  String password) {
         this.username = username;
         this.email = new AddressEmail(email);
