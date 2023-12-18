@@ -1,5 +1,6 @@
 package com.taskflow.taskmanagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.taskflow.taskmanagement.enums.TaskStatus;
 import com.taskflow.taskmanagement.validations.EnumValue;
 import com.taskflow.taskmanagement.validations.ThreeDaysMaxFromNow;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -51,5 +53,9 @@ public class Task {
     @EnumValue(enumClass = TaskStatus.class , message = "The Status Of Task Can Only Be 'Done' or 'UnDone' or 'InProgress'")
     @Enumerated(value = EnumType.STRING)
     private TaskStatus status;
+
+    @ManyToMany
+    @JsonIgnoreProperties("tasks")
+    private List<Tag> tags;
 
 }
