@@ -28,7 +28,7 @@ public class Permission {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "permissions")
     @JsonIgnoreProperties("permissions")
     private List<Role> roles;
 

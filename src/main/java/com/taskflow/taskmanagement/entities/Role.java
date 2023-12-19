@@ -32,7 +32,12 @@ public class Role {
     @JsonIgnoreProperties("roles")
     private List<User> users;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "role_permission",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
+    )
     @JsonIgnoreProperties("roles")
     private List<Permission> permissions;
 
