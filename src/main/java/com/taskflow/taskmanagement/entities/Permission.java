@@ -28,8 +28,13 @@ public class Permission {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "permissions")
     @JsonIgnoreProperties("permissions")
     private List<Role> roles;
+
+    public Permission(Long id , String name) {
+        this.id = id;
+        this.name = name;
+    }
 
 }

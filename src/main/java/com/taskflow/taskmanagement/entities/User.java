@@ -57,11 +57,21 @@ public class User {
     @OneToMany
     private List<Card> cards;
 
+
     public User(String username, String email, String firstName, String middleName , String lastName,  String password) {
         this.username = username;
         this.email = new AddressEmail(email);
         this.name = new FullName(firstName, middleName, lastName);
         this.password = new Password(password);
+    }
+
+    public User(Long id, String username, String email, String firstName, String middleName , String lastName,  String password , List<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.email = new AddressEmail(email);
+        this.name = new FullName(firstName, middleName, lastName);
+        this.password = new Password(password);
+        this.roles = roles;
     }
 
 }
