@@ -46,4 +46,9 @@ public class Role {
         this.name = name;
         this.permissions = permissions;
     }
+
+    public Role(Long id , String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
