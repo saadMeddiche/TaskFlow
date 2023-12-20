@@ -11,7 +11,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Builder
@@ -20,7 +24,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,9 +45,8 @@ public class User {
     @Embedded
     private FullName name;
 
-    @Valid
     @Embedded
-    private Password password;
+    private String password;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -62,7 +65,7 @@ public class User {
         this.username = username;
         this.email = new AddressEmail(email);
         this.name = new FullName(firstName, middleName, lastName);
-        this.password = new Password(password);
+        this.password = password;
     }
 
     public User(Long id, String username, String email, String firstName, String middleName , String lastName,  String password , List<Role> roles) {
@@ -70,8 +73,45 @@ public class User {
         this.username = username;
         this.email = new AddressEmail(email);
         this.name = new FullName(firstName, middleName, lastName);
-        this.password = new Password(password);
+        this.password = password;
         this.roles = roles;
     }
 
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .flatMap(role -> role.getPermissions().stream())
+                .map(permission -> new SimpleGrantedAuthority(permission.getName()))
+                .toList();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
