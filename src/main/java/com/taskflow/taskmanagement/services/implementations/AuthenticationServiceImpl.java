@@ -68,6 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         // Build a User object from the SignUpRequest
         return User.builder()
+                .username(request.getUsername())
                 .name(new FullName(request.getFirstName(), request.getMiddleName(), request.getLastName()))
                 .email(new AddressEmail(request.getEmail()))
                 .password(new Password(request.getPassword()))

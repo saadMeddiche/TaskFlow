@@ -21,11 +21,16 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 @Component
-@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
-    private final UserService userService;
+    private JwtService jwtService;
+
+    private UserService userService;
+
+    public JwtAuthenticationFilter(JwtService jwtService, UserService userService) {
+        this.jwtService = jwtService;
+        this.userService = userService;
+    }
 
     // Predicate to check if authorization should be skipped
     Predicate<String> shouldSkipAuthorization = (authHeader) -> authHeader == null || !authHeader.startsWith("Bearer ");
