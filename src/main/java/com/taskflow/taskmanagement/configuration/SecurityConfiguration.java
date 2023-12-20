@@ -30,10 +30,18 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/authentication/**").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(
+
+                        request -> request
+                        .requestMatchers("/api/v1/authentication/**").permitAll()
+                        .requestMatchers("/api/v1/resource/home").permitAll()
+                        .requestMatchers("/api/v1/resource/account").authenticated()
+                        .requestMatchers("/api/v1/resource/admin").hasAuthority("*")
+                        .anyRequest().authenticated()
+                )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
