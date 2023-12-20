@@ -45,8 +45,9 @@ public class User implements UserDetails {
     @Embedded
     private FullName name;
 
+    @Valid
     @Embedded
-    private String password;
+    private Password password;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -65,7 +66,7 @@ public class User implements UserDetails {
         this.username = username;
         this.email = new AddressEmail(email);
         this.name = new FullName(firstName, middleName, lastName);
-        this.password = password;
+        this.password = new Password(password);
     }
 
     public User(Long id, String username, String email, String firstName, String middleName , String lastName,  String password , List<Role> roles) {
@@ -73,13 +74,13 @@ public class User implements UserDetails {
         this.username = username;
         this.email = new AddressEmail(email);
         this.name = new FullName(firstName, middleName, lastName);
-        this.password = password;
+        this.password = new Password(password);
         this.roles = roles;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return password.getHashedPassword();
     }
 
     @Override
