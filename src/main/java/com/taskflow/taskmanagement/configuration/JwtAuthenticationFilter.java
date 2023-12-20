@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -81,6 +82,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Continue with the filter chain
         filterChain.doFilter(request, response);
+
     }
 
     // Extracts the JWT token from the Authorization header
