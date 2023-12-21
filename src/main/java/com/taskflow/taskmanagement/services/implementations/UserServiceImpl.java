@@ -3,6 +3,7 @@ package com.taskflow.taskmanagement.services.implementations;
 import com.taskflow.taskmanagement.entities.User;
 import com.taskflow.taskmanagement.repositories.UserRepository;
 import com.taskflow.taskmanagement.services.UserService;
+import com.taskflow.taskmanagement.services.validations.UserValdiationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,8 +17,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final UserValdiationService validation;
+
 
     public User createUser(User user){
+
+        validation.validateUserOnCreating(user);
+
         return userRepository.save(user);
     }
     @Override

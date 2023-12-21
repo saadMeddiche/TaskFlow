@@ -1,16 +1,15 @@
 package com.taskflow.taskmanagement.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.taskflow.taskmanagement.embeddables.AddressEmail;
 import com.taskflow.taskmanagement.embeddables.FullName;
 import com.taskflow.taskmanagement.embeddables.Password;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,9 +37,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String username;
 
-    @Valid
-    @Embedded
-    private AddressEmail email;
+    @NotNull(message = "The address email can not be null")
+    @NotBlank(message = "The address email can not be blank")
+    @Email(message = "Invalid email format")
+    private String email;
 
     @Valid
     @Embedded
@@ -65,7 +65,7 @@ public class User implements UserDetails {
 
     public User(String username, String email, String firstName, String middleName , String lastName,  String password) {
         this.username = username;
-        this.email = new AddressEmail(email);
+        this.email = email;
         this.name = new FullName(firstName, middleName, lastName);
         this.password = new Password(password);
     }
@@ -73,7 +73,7 @@ public class User implements UserDetails {
     public User(Long id, String username, String email, String firstName, String middleName , String lastName,  String password , List<Role> roles) {
         this.id = id;
         this.username = username;
-        this.email = new AddressEmail(email);
+        this.email = email;
         this.name = new FullName(firstName, middleName, lastName);
         this.password = new Password(password);
         this.roles = roles;

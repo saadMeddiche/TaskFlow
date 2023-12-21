@@ -4,6 +4,7 @@ package com.taskflow.taskmanagement.handlingExceptions;
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.hibernate.query.QueryArgumentException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -43,6 +44,11 @@ public class ExceptionHandlerFactory {
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<?> handleValidationException(ValidationException exception) {
         return new ResponseEntity<>(List.of(exception.getError()) , HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(QueryArgumentException.class)
+    public ResponseEntity<?> handleQueryArgumentException(QueryArgumentException exception) {
+        return new ResponseEntity<>(exception.getMessage() , HttpStatus.BAD_REQUEST);
     }
 
     // Yeh I know ,  I also do not like this one

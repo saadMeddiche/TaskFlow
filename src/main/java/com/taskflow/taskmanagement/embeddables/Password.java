@@ -19,13 +19,11 @@ public class Password {
 
     @NotNull(message = "The password can not be null")
     @NotBlank(message = "The password can not be blank")
-    @Size(min = 8, message = "Password must be at least 8 characters")
-    @Pattern(regexp = "^[^\\s]*$", message = "No Space Allowed")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", message = "Password must contain at least one digit, one lowercase letter, one uppercase letter, and one special character (@#$%^&+=)")
     private String hashedPassword;
 
+
     public Password(String nonHashedPassword) {
-         this.hashedPassword = hashPassword(nonHashedPassword);
+        this.hashedPassword = hashPassword(nonHashedPassword);
     }
 
     public boolean isHashedPasswordEqualsNonHashedPassword(String nonHashedPassword) {

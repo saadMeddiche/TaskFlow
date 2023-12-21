@@ -32,7 +32,7 @@ public class UserValdiationService extends BaseValidation {
     }
 
     private Boolean emailAlreadyExists(User user) {
-        return userRepository.existsByEmail(user.getEmail().getAddressEmail());
+        return userRepository.existsByEmail(user.getEmail());
     }
 
     private Boolean usernameAlreadyExists(User user) {
