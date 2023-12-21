@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +45,16 @@ public class ExceptionHandlerFactory {
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<?> handleValidationException(ValidationException exception) {
         return new ResponseEntity<>(List.of(exception.getError()) , HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<?> handleAuthorizationException(AuthorizationException exception) {
+        return new ResponseEntity<>(List.of() , HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<?> handleAuthenticationException(AuthenticationException exception) {
+        return new ResponseEntity<>(List.of() , HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(QueryArgumentException.class)
