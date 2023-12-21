@@ -60,6 +60,7 @@ public class User implements UserDetails {
     private List<Role> roles;
 
     @OneToMany
+    @JsonIgnoreProperties("user")
     private List<Card> cards;
 
 
