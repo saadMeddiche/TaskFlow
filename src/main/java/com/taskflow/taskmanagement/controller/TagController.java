@@ -2,6 +2,7 @@ package com.taskflow.taskmanagement.controller;
 
 import com.taskflow.taskmanagement.converters.TagConverter;
 import com.taskflow.taskmanagement.dtos.tag.request.TagRequest;
+import com.taskflow.taskmanagement.entities.Tag;
 import com.taskflow.taskmanagement.services.TagService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class TagController {
 
     @PostMapping
     public ResponseEntity<?> createTag(@Valid @RequestBody TagRequest tagRequest) {
-        tagService.createTag(TagConverter.convertToEntity(tagRequest));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Tag createdTag = tagService.createTag(TagConverter.convertToEntity(tagRequest));
+        return new ResponseEntity<>(createdTag , HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -27,4 +28,5 @@ public class TagController {
         tagService.deleteTag(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

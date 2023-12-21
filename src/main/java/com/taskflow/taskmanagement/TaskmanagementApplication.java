@@ -3,6 +3,7 @@ package com.taskflow.taskmanagement;
 import com.taskflow.taskmanagement.entities.Permission;
 import com.taskflow.taskmanagement.entities.Role;
 import com.taskflow.taskmanagement.entities.User;
+import com.taskflow.taskmanagement.permissions.Tag;
 import com.taskflow.taskmanagement.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
@@ -44,6 +45,8 @@ public class TaskmanagementApplication {
 		permissions.add(new Permission(3L , "EDIT_OWN_CARD"));
 		permissions.add(new Permission(4L , "ADD_OWN_CARD"));
 		permissions.add(new Permission(5L , "BIND_TAGS_TO_OWN_CARD"));
+		permissions.add(new Permission(6L , Tag.ADD_TAG.name()));
+		permissions.add(new Permission(7L , Tag.DELETE_TAG.name()));
 
 		Role adminRole = new Role(1L , "LEAD_ADMIN" , List.of(accessToAll));
 
@@ -55,7 +58,7 @@ public class TaskmanagementApplication {
 		users.add(new User(3L ,"User2", "user2@gmail.com", "Jane", "Miller", "Smith", "Password#Jane#0002" , List.of(memberRole)) );
 		users.add(new User(4L ,"User3", "user3@gmail.com", "Alice", null, "Johnson", "Password#Alice#0003" , List.of(memberRole)));
 		users.add(new User(5L ,"User4", "user4@gmail.com", "Bob", null, "Miller", "Password#Bob#0004" , List.of(memberRole)));
-		users.add(new User(6L,"User5", "user5@gmail.com", "Eva", null, "Davis", "Password#Eva#0005" , List.of(memberRole)));
+		users.add(new User(6L,"User5", "user5@gmail.com", "Eva", null, "Davis", "Password#Eva#0005" , List.of()));
 
 		userRepository.saveAll(users);
 

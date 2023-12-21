@@ -4,15 +4,16 @@ import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.DoNotExis
 import com.taskflow.taskmanagement.repositories.BaseRepository;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
-public class BaseService<T,ID> {
+@Component
+class BaseService<T,ID> {
 
-    private final BaseRepository<T,ID> repository;
-    private final Class<?> entityClass;
+    private BaseRepository<T,ID> repository;
+    private  Class<?> entityClass;
 
     public BaseService(BaseRepository<T,ID> baseRepository , Class<?> entityClass) {
         this.entityClass = entityClass;

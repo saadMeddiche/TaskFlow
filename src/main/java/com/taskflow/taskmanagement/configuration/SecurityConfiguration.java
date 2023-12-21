@@ -1,9 +1,11 @@
 package com.taskflow.taskmanagement.configuration;
 
+import com.taskflow.taskmanagement.permissions.Tag;
 import com.taskflow.taskmanagement.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -38,6 +40,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/resource/home").permitAll()
                         .requestMatchers("/api/v1/resource/account").authenticated()
                         .requestMatchers("/api/v1/resource/admin").hasAuthority("*")
+                        .requestMatchers(HttpMethod.POST ,"/api/v1/tags").hasAnyAuthority(Tag.ADD_TAG.name() , "*")
+                        .requestMatchers(HttpMethod.DELETE ,"/api/v1/tags/**").hasAnyAuthority(Tag.DELETE_TAG.name() , "*")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
