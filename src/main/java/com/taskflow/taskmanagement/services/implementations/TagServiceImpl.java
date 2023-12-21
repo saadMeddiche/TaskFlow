@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TagServiceImpl extends BaseService<Tag ,Long> implements TagService  {
+public class TagServiceImpl extends BaseService<Tag> implements TagService  {
 
     private final TagRepository tagRepository;
 
