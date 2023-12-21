@@ -24,6 +24,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@ToString
 public class User implements UserDetails {
 
     @Id

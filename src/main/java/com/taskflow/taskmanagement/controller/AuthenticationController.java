@@ -4,6 +4,7 @@ import com.taskflow.taskmanagement.dtos.authentication.request.SignInRequest;
 import com.taskflow.taskmanagement.dtos.authentication.request.SignUpRequest;
 import com.taskflow.taskmanagement.dtos.authentication.response.JwtAuthenticationResponse;
 import com.taskflow.taskmanagement.services.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +20,13 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
     @PostMapping("/signUp")
-    public ResponseEntity<JwtAuthenticationResponse> signUp(@RequestBody SignUpRequest request) {
+    public ResponseEntity<JwtAuthenticationResponse> signUp(@Valid @RequestBody SignUpRequest request) {
         JwtAuthenticationResponse response = authenticationService.signUp(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<JwtAuthenticationResponse> signIn(@RequestBody SignInRequest request) {
+    public ResponseEntity<JwtAuthenticationResponse> signIn(@Valid @RequestBody SignInRequest request) {
         JwtAuthenticationResponse response = authenticationService.signIn(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

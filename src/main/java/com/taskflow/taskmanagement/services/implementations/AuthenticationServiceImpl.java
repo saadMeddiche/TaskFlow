@@ -8,6 +8,7 @@ import com.taskflow.taskmanagement.embeddables.FullName;
 import com.taskflow.taskmanagement.embeddables.Password;
 import com.taskflow.taskmanagement.entities.Role;
 import com.taskflow.taskmanagement.entities.User;
+import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.ValidationException;
 import com.taskflow.taskmanagement.services.AuthenticationService;
 import com.taskflow.taskmanagement.services.JwtService;
 import com.taskflow.taskmanagement.services.RoleService;
@@ -33,6 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthenticationResponse signUp(SignUpRequest request) {
+
         // Build a user object from the signup request
         User user = buildUser(request);
 

@@ -2,7 +2,7 @@ package com.taskflow.taskmanagement.entities;
 
 import com.taskflow.taskmanagement.enums.CardType;
 import com.taskflow.taskmanagement.enums.RangeType;
-import com.taskflow.taskmanagement.validations.EnumValue;
+import com.taskflow.taskmanagement.costumValidations.EnumValue;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

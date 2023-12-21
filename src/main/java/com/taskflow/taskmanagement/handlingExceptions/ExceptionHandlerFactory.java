@@ -2,6 +2,8 @@ package com.taskflow.taskmanagement.handlingExceptions;
 
 
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.*;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -40,7 +42,7 @@ public class ExceptionHandlerFactory {
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<?> handleValidationException(ValidationException exception) {
-        return new ResponseEntity<>(List.of(exception.getError()) , HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(List.of(exception.getError()) , HttpStatus.BAD_REQUEST);
     }
 
     // Yeh I know ,  I also do not like this one
@@ -80,6 +82,18 @@ public class ExceptionHandlerFactory {
                 .getFieldErrors()
                 .stream()
                 .map(FieldError::getDefaultMessage)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(errors , HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException exception) {
+
+        // Return list of errors
+        List<String> errors = exception.getConstraintViolations()
+                .stream()
+                .map(ConstraintViolation::getMessage)
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(errors , HttpStatus.BAD_REQUEST);
