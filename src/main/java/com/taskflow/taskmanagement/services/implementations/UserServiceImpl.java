@@ -3,12 +3,13 @@ package com.taskflow.taskmanagement.services.implementations;
 import com.taskflow.taskmanagement.entities.User;
 import com.taskflow.taskmanagement.repositories.UserRepository;
 import com.taskflow.taskmanagement.services.UserService;
-import jakarta.validation.Valid;
+import com.taskflow.taskmanagement.services.validations.UserValdiationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +17,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final UserValdiationService validation;
+
+
     public User createUser(User user){
+
+        validation.validateUserOnCreating(user);
+
         return userRepository.save(user);
     }
     @Override

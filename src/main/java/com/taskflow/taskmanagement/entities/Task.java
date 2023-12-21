@@ -2,8 +2,8 @@ package com.taskflow.taskmanagement.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.taskflow.taskmanagement.enums.TaskStatus;
-import com.taskflow.taskmanagement.validations.EnumValue;
-import com.taskflow.taskmanagement.validations.ThreeDaysMaxFromNow;
+import com.taskflow.taskmanagement.costumValidations.EnumValue;
+import com.taskflow.taskmanagement.costumValidations.ThreeDaysMaxFromNow;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;

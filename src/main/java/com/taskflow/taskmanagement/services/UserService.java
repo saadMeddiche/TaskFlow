@@ -9,5 +9,5 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    User createUser(@Valid User user);
+    User createUser(User user);
 }

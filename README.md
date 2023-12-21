@@ -18,6 +18,10 @@
 - AuthenticationService : [Link](src/main/java/com/taskflow/taskmanagement/services/implementations/AuthenticationServiceImpl.java)
 - JwtService : [Link](src/main/java/com/taskflow/taskmanagement/services/implementations/JwtServiceImpl.java)
 
+# Handling UNAUTHORIZED Actions
+- SecurityConfiguration [Link](src/main/java/com/taskflow/taskmanagement/configuration/SecurityConfiguration.java)
+![](reademeimages/UNAUTHORIZED.PNG)
+
 # Default Data
 
 -   [Link](src/main/java/com/taskflow/taskmanagement/TaskmanagementApplication.java)

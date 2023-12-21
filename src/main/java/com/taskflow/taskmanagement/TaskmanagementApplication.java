@@ -50,12 +50,12 @@ public class TaskmanagementApplication {
 		Role memberRole = new Role(2L , "MEMBER" , permissions);
 
 		List<User> users = new ArrayList<>();
-		users.add(new User(1L,"Admin" , "admin@gmail.com" , "Saad" , null , "Meddiche" ,"Password#0000" , List.of(adminRole)));
-		users.add(new User(2L ,"User1", "user1@gmail.com", "John", "Smith", "Doe", "Password#0001" , List.of(memberRole)));
-		users.add(new User(3L ,"User2", "user2@gmail.com", "Jane", "Miller", "Smith", "Password#0002" , List.of(memberRole)) );
-		users.add(new User(4L ,"User3", "user3@gmail.com", "Alice", null, "Johnson", "Password#0003" , List.of(memberRole)));
-		users.add(new User(5L ,"User4", "user4@gmail.com", "Bob", null, "Miller", "Password#0004" , List.of(memberRole)));
-		users.add(new User(6L,"User5", "user5@gmail.com", "Eva", null, "Davis", "Password#0005" , List.of(memberRole)));
+		users.add(new User(1L,"Admin" , "admin@gmail.com" , "Saad" , null , "Meddiche" ,"Password#Saad#0000" , List.of(adminRole)));
+		users.add(new User(2L ,"User1", "user1@gmail.com", "John", "Smith", "Doe", "Password#John#0001" , List.of(memberRole)));
+		users.add(new User(3L ,"User2", "user2@gmail.com", "Jane", "Miller", "Smith", "Password#Jane#0002" , List.of(memberRole)) );
+		users.add(new User(4L ,"User3", "user3@gmail.com", "Alice", null, "Johnson", "Password#Alice#0003" , List.of(memberRole)));
+		users.add(new User(5L ,"User4", "user4@gmail.com", "Bob", null, "Miller", "Password#Bob#0004" , List.of(memberRole)));
+		users.add(new User(6L,"User5", "user5@gmail.com", "Eva", null, "Davis", "Password#Eva#0005" , List.of(memberRole)));
 
 		userRepository.saveAll(users);
 

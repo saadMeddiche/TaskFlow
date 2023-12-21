@@ -3,7 +3,6 @@ package com.taskflow.taskmanagement.services.implementations;
 import com.taskflow.taskmanagement.dtos.authentication.request.SignUpRequest;
 import com.taskflow.taskmanagement.dtos.authentication.request.SignInRequest;
 import com.taskflow.taskmanagement.dtos.authentication.response.JwtAuthenticationResponse;
-import com.taskflow.taskmanagement.embeddables.AddressEmail;
 import com.taskflow.taskmanagement.embeddables.FullName;
 import com.taskflow.taskmanagement.embeddables.Password;
 import com.taskflow.taskmanagement.entities.Role;
@@ -33,6 +32,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthenticationResponse signUp(SignUpRequest request) {
+
         // Build a user object from the signup request
         User user = buildUser(request);
 
@@ -70,7 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return User.builder()
                 .username(request.getUsername())
                 .name(new FullName(request.getFirstName(), request.getMiddleName(), request.getLastName()))
-                .email(new AddressEmail(request.getEmail()))
+                .email(request.getEmail())
                 .password(new Password(request.getPassword()))
                 .roles(List.of(MEMBER))  // --- Set the default role (MEMBER)
                 .build();
