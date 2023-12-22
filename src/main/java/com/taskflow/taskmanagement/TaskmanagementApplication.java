@@ -35,6 +35,7 @@ public class TaskmanagementApplication {
 			@Override
 			public void run(ApplicationArguments args) {
 				createDefaultDataForOfUsers();
+				createDefaultTags();
 			}
 		};
 	}
@@ -69,14 +70,14 @@ public class TaskmanagementApplication {
 
 	private void createDefaultTags(){
 		List<Tag> tags = new ArrayList<>();
-		tags.add(Tag.builder().id(1L).name("Backend").build());
-		tags.add(Tag.builder().id(2L).name("Frontend").build());
-		tags.add(Tag.builder().id(3L).name("Mobile").build());
-		tags.add(Tag.builder().id(4L).name("Database").build());
-		tags.add(Tag.builder().id(5L).name("DevOps").build());
-		tags.add(Tag.builder().id(6L).name("Security").build());
-		tags.add(Tag.builder().id(7L).name("Testing").build());
-		tags.add(Tag.builder().id(8L).name("Design").build());
+		tags.add(Tag.builder().id(1L).name("Backend").tasks(List.of()).build());
+		tags.add(Tag.builder().id(2L).name("Frontend").tasks(List.of()).build());
+		tags.add(Tag.builder().id(3L).name("Mobile").tasks(List.of()).build());
+		tags.add(Tag.builder().id(4L).name("Database").tasks(List.of()).build());
+		tags.add(Tag.builder().id(5L).name("DevOps").tasks(List.of()).build());
+		tags.add(Tag.builder().id(6L).name("Security").tasks(List.of()).build());
+		tags.add(Tag.builder().id(7L).name("Testing").tasks(List.of()).build());
+		tags.add(Tag.builder().id(8L).name("Design").tasks(List.of()).build());
 
 		tagRepository.saveAll(tags);
 

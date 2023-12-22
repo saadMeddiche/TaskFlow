@@ -74,6 +74,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .name(new FullName(request.getFirstName(), request.getMiddleName(), request.getLastName()))
                 .email(request.getEmail())
                 .password(new Password(request.getPassword()))
+                .cards(List.of())
                 .roles(List.of(MEMBER))  // --- Set the default role (MEMBER)
                 .build();
     }
