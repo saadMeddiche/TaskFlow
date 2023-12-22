@@ -2,8 +2,10 @@ package com.taskflow.taskmanagement;
 
 import com.taskflow.taskmanagement.entities.Permission;
 import com.taskflow.taskmanagement.entities.Role;
+import com.taskflow.taskmanagement.entities.Tag;
 import com.taskflow.taskmanagement.entities.User;
-import com.taskflow.taskmanagement.permissions.Tag;
+import com.taskflow.taskmanagement.permissions.TagPermissions;
+import com.taskflow.taskmanagement.repositories.TagRepository;
 import com.taskflow.taskmanagement.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
@@ -19,7 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskmanagementApplication {
 
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
+	private final TagRepository tagRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TaskmanagementApplication.class, args);
@@ -36,7 +39,7 @@ public class TaskmanagementApplication {
 		};
 	}
 
-	public void createDefaultDataForOfUsers(){
+	private void createDefaultDataForOfUsers(){
 
 		Permission accessToAll = new Permission(1L , "*");
 
@@ -45,8 +48,8 @@ public class TaskmanagementApplication {
 		permissions.add(new Permission(3L , "EDIT_OWN_CARD"));
 		permissions.add(new Permission(4L , "ADD_OWN_CARD"));
 		permissions.add(new Permission(5L , "BIND_TAGS_TO_OWN_CARD"));
-		permissions.add(new Permission(6L , Tag.ADD_TAG.name()));
-		permissions.add(new Permission(7L , Tag.DELETE_TAG.name()));
+		permissions.add(new Permission(6L , TagPermissions.ADD_TAG.name()));
+		permissions.add(new Permission(7L , TagPermissions.DELETE_TAG.name()));
 
 		Role adminRole = new Role(1L , "LEAD_ADMIN" , List.of(accessToAll));
 
@@ -61,6 +64,21 @@ public class TaskmanagementApplication {
 		users.add(new User(6L,"User5", "user5@gmail.com", "Eva", null, "Davis", "Password#0005" , List.of()));
 
 		userRepository.saveAll(users);
+
+	}
+
+	private void createDefaultTags(){
+		List<Tag> tags = new ArrayList<>();
+		tags.add(Tag.builder().id(1L).name("Backend").build());
+		tags.add(Tag.builder().id(2L).name("Frontend").build());
+		tags.add(Tag.builder().id(3L).name("Mobile").build());
+		tags.add(Tag.builder().id(4L).name("Database").build());
+		tags.add(Tag.builder().id(5L).name("DevOps").build());
+		tags.add(Tag.builder().id(6L).name("Security").build());
+		tags.add(Tag.builder().id(7L).name("Testing").build());
+		tags.add(Tag.builder().id(8L).name("Design").build());
+
+		tagRepository.saveAll(tags);
 
 	}
 

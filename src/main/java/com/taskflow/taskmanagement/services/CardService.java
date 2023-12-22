@@ -5,6 +5,7 @@ import com.taskflow.taskmanagement.entities.User;
 
 public interface CardService {
 
+    public void createDefaultCards(User user);
     public void createDefaultModificationCardForUser(User user);
     public void createDefaultDeletionCardForUser(User user);
     public void useModifyCard(User user);

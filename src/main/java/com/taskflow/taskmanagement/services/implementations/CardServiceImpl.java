@@ -19,6 +19,7 @@ public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
 
+    @Override
     public void createDefaultCards(User user){
         createDefaultModificationCardForUser(user);
         createDefaultDeletionCardForUser(user);
