@@ -44,7 +44,6 @@ public class CardServiceImpl implements CardService {
                                     .rangeType(RangeType.PerDay)
                                     .build();
 
-
                             cardRepository.save(card);
                         }
                 );
@@ -114,12 +113,22 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public boolean checkIfUserCanUseModifyCard(User user) {
-        return false;
+        return user.getCards()
+                .stream()
+                .filter(card -> card.getType().equals(CardType.Modification))
+                .findFirst()
+                .map(card -> card.getNumberOfUtilisation() > 0)
+                .orElse(false);
     }
 
     @Override
     public boolean checkIfUserCanUseDeleteCard(User user) {
-        return false;
+        return user.getCards()
+                .stream()
+                .filter(card -> card.getType().equals(CardType.Deletion))
+                .findFirst()
+                .map(card -> card.getNumberOfUtilisation() > 0)
+                .orElse(false);
     }
 
 
