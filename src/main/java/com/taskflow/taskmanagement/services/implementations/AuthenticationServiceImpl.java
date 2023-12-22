@@ -7,10 +7,7 @@ import com.taskflow.taskmanagement.embeddables.FullName;
 import com.taskflow.taskmanagement.embeddables.Password;
 import com.taskflow.taskmanagement.entities.Role;
 import com.taskflow.taskmanagement.entities.User;
-import com.taskflow.taskmanagement.services.AuthenticationService;
-import com.taskflow.taskmanagement.services.JwtService;
-import com.taskflow.taskmanagement.services.RoleService;
-import com.taskflow.taskmanagement.services.UserService;
+import com.taskflow.taskmanagement.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +27,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final RoleService roleService;
 
+    private final CardService cardService;
+
     @Override
     public JwtAuthenticationResponse signUp(SignUpRequest request) {
 
@@ -38,6 +37,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         // Create the user in the database
         userService.createUser(user);
+
+        // Create default jetons
+        cardService.createDefaultCards(user);
 
         // Generate a JWT token for the registered user
         String jwt = jwtService.generateToken(user);
@@ -72,6 +74,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .name(new FullName(request.getFirstName(), request.getMiddleName(), request.getLastName()))
                 .email(request.getEmail())
                 .password(new Password(request.getPassword()))
+                .cards(List.of())
                 .roles(List.of(MEMBER))  // --- Set the default role (MEMBER)
                 .build();
     }
