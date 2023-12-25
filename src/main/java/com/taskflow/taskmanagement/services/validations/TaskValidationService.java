@@ -16,6 +16,8 @@ public class TaskValidationService extends BaseValidation {
 
     private static final Predicate<Task> TASK_ASSIGNER_NOT_SAME_AS_ASSIGNED_USER = task -> !task.getAssignedBy().equals(task.getAssignedTo());
 
+    private static final Predicate<Task> TASK_CREATOR_NOT_THE_ASSIGNER = task -> ! task.getCreatedBy().equals(task.getAssignedBy());
+
     public void validateTaskOnCreating(Task task) {
 
         validateObject(task);
@@ -27,11 +29,15 @@ public class TaskValidationService extends BaseValidation {
     }
 
     public void validateTaskOnAssigningAdditionalTask(Task task) {
-       // no validation yet
+
+        validateObject(task);
+
+        throwExceptionIf(TASK_ASSIGNER_NOT_SAME_AS_ASSIGNED_USER, task, ValidationException::new, "Task assigner must be same as assigned user");
+
+        throwExceptionIf(TASK_CREATOR_NOT_THE_ASSIGNER , task, ValidationException::new, "Task creator must be same as assigner");
     }
 
     public void validateTaskOnAssignTask(Task task) {
-        throwExceptionIf(TASK_ASSIGNER_NOT_SAME_AS_ASSIGNED_USER, task, ValidationException::new, "Task assigner must be same as assigned user");
     }
 
 }

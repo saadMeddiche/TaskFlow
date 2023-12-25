@@ -61,6 +61,19 @@ public class TaskConverter {
                 .build();
     }
 
+    public Task convertToEntity(Long taskId) {
+
+        Task task = taskService.getById(taskId);
+
+        User userAuthenticated = authenticationService.getCurrentAuthenticatedUser();
+
+        return Task.builder()
+                .id(task.getId())
+                .assignedBy(userAuthenticated)
+                .assignedTo(userAuthenticated)
+                .build();
+    }
+
     public TaskResponse convertToTaskResponse(Task task) {
 
         return TaskResponse.builder()
