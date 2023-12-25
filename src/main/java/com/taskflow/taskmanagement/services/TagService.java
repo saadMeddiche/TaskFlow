@@ -7,4 +7,6 @@ public interface TagService {
     public Tag createTag(Tag tag);
 
     public void deleteTag(Long tagId);
+
+    public Tag getTagById(Long tagId);
 }

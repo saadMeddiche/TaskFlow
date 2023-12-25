@@ -2,6 +2,7 @@ package com.taskflow.taskmanagement.handlingExceptions;
 
 
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.*;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.hibernate.query.QueryArgumentException;
@@ -60,6 +61,11 @@ public class ExceptionHandlerFactory {
     @ExceptionHandler(QueryArgumentException.class)
     public ResponseEntity<?> handleQueryArgumentException(QueryArgumentException exception) {
         return new ResponseEntity<>(exception.getMessage() , HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<?> handleExpiredJwtException(ExpiredJwtException exception) {
+        return new ResponseEntity<>(List.of(exception.getMessage()) , HttpStatus.UNAUTHORIZED);
     }
 
     // Yeh I know ,  I also do not like this one

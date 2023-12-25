@@ -32,9 +32,6 @@ public class TaskRequest {
     @NotNull(message = "End date of task cannot be null")
     private LocalDate endDate;
 
-    @NotNull(message = "Created By Id of task cannot be null")
-    private User createdById;
-
     @NotNull(message = "Ids of tags of task cannot be null")
     @NotEmpty(message = "Ids of tags of task cannot be empty")
     private List<Long> tagsId;

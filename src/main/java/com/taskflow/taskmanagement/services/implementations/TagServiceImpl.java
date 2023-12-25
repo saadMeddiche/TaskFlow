@@ -1,6 +1,7 @@
 package com.taskflow.taskmanagement.services.implementations;
 
 import com.taskflow.taskmanagement.entities.Tag;
+import com.taskflow.taskmanagement.entities.Task;
 import com.taskflow.taskmanagement.repositories.TagRepository;
 import com.taskflow.taskmanagement.services.TagService;
 import com.taskflow.taskmanagement.services.validations.TagValidationService;
@@ -32,5 +33,10 @@ public class TagServiceImpl extends BaseService<Tag> implements TagService  {
     @Override
     public void deleteTag(Long tagId) {
         deleteEntityById(tagId);
+    }
+
+    @Override
+    public Tag getTagById(Long tagId) {
+        return getEntityById(tagId);
     }
 }

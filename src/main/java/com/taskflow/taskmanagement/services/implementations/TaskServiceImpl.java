@@ -4,6 +4,7 @@ import com.taskflow.taskmanagement.entities.Task;
 import com.taskflow.taskmanagement.repositories.TaskRepository;
 import com.taskflow.taskmanagement.services.TaskService;
 import com.taskflow.taskmanagement.services.validations.TaskValidationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskValidationService validation;
     @Override
-    public Task createTask(Task task) {
+    public Task createTask(@Valid Task task) {
         validation.validateTaskOnCreating(task);
         return taskRepository.save(task);
     }
