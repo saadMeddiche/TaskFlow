@@ -21,10 +21,8 @@ public abstract class BaseValidation {
 
     }
 
-    protected  <T, E extends Exception> void throwExceptionIf(Predicate<T> predicate, T value, ExceptionSupplier<E> exceptionSupplier, String message) throws E {
-        if (predicate.test(value)) {
-            throw exceptionSupplier.get(message);
-        }
+    protected  <O, E extends Exception> void throwExceptionIf(Predicate<O> predicate, O value, ExceptionSupplier<E> exceptionSupplier, String message) throws E {
+        if (predicate.test(value)) throw exceptionSupplier.get(message);
     }
 
     @FunctionalInterface

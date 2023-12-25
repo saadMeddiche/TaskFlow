@@ -6,6 +6,8 @@ public interface TaskService {
 
     public Task createTask(Task task);
 
+    public Task getById(Long taskId);
+
     public void assignTask(Task task);
 
     public void assignAdditionalTask(Task task);

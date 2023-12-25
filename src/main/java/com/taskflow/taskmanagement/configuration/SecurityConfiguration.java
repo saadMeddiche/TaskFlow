@@ -47,6 +47,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST ,"/api/v1/tags").hasAnyAuthority(TagPermissions.ADD_TAG.name() , "*")
                         .requestMatchers(HttpMethod.DELETE ,"/api/v1/tags/**").hasAnyAuthority(TagPermissions.DELETE_TAG.name() , "*")
                         .requestMatchers(HttpMethod.POST ,"/api/v1/tasks").hasAnyAuthority(TaskPermissions.CREATE_TASK.name() , "*")
+                        .requestMatchers(HttpMethod.POST ,"/api/v1/tasks/assignTask").hasAnyAuthority(TaskPermissions.ASSIGN_TASK.name() , "*")
+                        .requestMatchers(HttpMethod.POST ,"/api/v1/tasks/assignAdditionalTask").hasAnyAuthority(TaskPermissions.ASSIGN_ADDITIONAL_TASK.name() , "*")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

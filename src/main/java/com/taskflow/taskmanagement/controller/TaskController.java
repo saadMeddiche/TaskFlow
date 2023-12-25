@@ -1,6 +1,7 @@
 package com.taskflow.taskmanagement.controller;
 
 import com.taskflow.taskmanagement.converters.TaskConverter;
+import com.taskflow.taskmanagement.dtos.task.request.TaskAssignRequest;
 import com.taskflow.taskmanagement.dtos.task.request.TaskRequest;
 import com.taskflow.taskmanagement.dtos.task.response.TaskResponse;
 import com.taskflow.taskmanagement.entities.Task;
@@ -47,7 +48,7 @@ public class TaskController {
     }
 
     @PostMapping("/assignTask")
-    public ResponseEntity<?> assignTask(@Valid @RequestBody TaskRequest taskRequest) {
+    public ResponseEntity<?> assignTask(@Valid @RequestBody TaskAssignRequest taskRequest) {
 
         Task task = taskConverter.convertToEntity(taskRequest);
 
@@ -57,7 +58,7 @@ public class TaskController {
     }
 
     @PostMapping("/assignAdditionalTask")
-    public ResponseEntity<?> assignAdditionalTask(@Valid @RequestBody TaskRequest taskRequest) {
+    public ResponseEntity<?> assignAdditionalTask(@Valid @RequestBody TaskAssignRequest taskRequest) {
 
         Task task = taskConverter.convertToEntity(taskRequest);
 

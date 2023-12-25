@@ -14,6 +14,8 @@ public class TaskValidationService extends BaseValidation {
 
     private static final Predicate<Task> DATE_STARTS_AFTER_ENDS = task -> task.getStartDate().isAfter(task.getEndDate());
 
+    private static final Predicate<Task> TASK_ASSIGNER_NOT_SAME_AS_ASSIGNED_USER = task -> !task.getAssignedBy().equals(task.getAssignedTo());
+
     public void validateTaskOnCreating(Task task) {
 
         validateObject(task);
@@ -25,11 +27,11 @@ public class TaskValidationService extends BaseValidation {
     }
 
     public void validateTaskOnAssigningAdditionalTask(Task task) {
-
+       // no validation yet
     }
 
     public void validateTaskOnAssignTask(Task task) {
-
+        throwExceptionIf(TASK_ASSIGNER_NOT_SAME_AS_ASSIGNED_USER, task, ValidationException::new, "Task assigner must be same as assigned user");
     }
 
 }

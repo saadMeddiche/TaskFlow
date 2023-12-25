@@ -53,12 +53,12 @@ public class TaskmanagementApplication {
 		permissions.add(new Permission(5L , "BIND_TAGS_TO_OWN_CARD"));
 		permissions.add(new Permission(6L , TagPermissions.ADD_TAG.name()));
 		permissions.add(new Permission(7L , TagPermissions.DELETE_TAG.name()));
-		permissions.add(new Permission(8L , TaskPermissions.CREATE_TASK.name()));
-		permissions.add(new Permission(9L , TaskPermissions.ASSIGN_TASK.name()));
-		permissions.add(new Permission(10L , TaskPermissions.MARK_TASK_AS_DONE.name()));
-		permissions.add(new Permission(11L , TaskPermissions.REPLACE_TASK.name()));
-		permissions.add(new Permission(12L , TaskPermissions.DEMAND_REPLACEMENT.name()));
-		permissions.add(new Permission(13L , TaskPermissions.DELETE_TASK.name()));
+		permissions.add(new Permission(8L , TaskPermissions.ASSIGN_ADDITIONAL_TASK.name()));
+//		permissions.add(new Permission(9L , TaskPermissions.CREATE_TASK.name()));
+//		permissions.add(new Permission(10L , TaskPermissions.MARK_TASK_AS_DONE.name()));
+//		permissions.add(new Permission(11L , TaskPermissions.REPLACE_TASK.name()));
+//		permissions.add(new Permission(12L , TaskPermissions.DEMAND_REPLACEMENT.name()));
+//		permissions.add(new Permission(13L , TaskPermissions.DELETE_TASK.name()));
 
 
 		Role adminRole = new Role(1L , "LEAD_ADMIN" , List.of(accessToAll));

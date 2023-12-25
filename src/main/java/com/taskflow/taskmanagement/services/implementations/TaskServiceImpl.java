@@ -1,6 +1,7 @@
 package com.taskflow.taskmanagement.services.implementations;
 
 import com.taskflow.taskmanagement.entities.Task;
+import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.DoNotExistException;
 import com.taskflow.taskmanagement.repositories.TaskRepository;
 import com.taskflow.taskmanagement.services.TaskService;
 import com.taskflow.taskmanagement.services.validations.TaskValidationService;
@@ -19,6 +20,11 @@ public class TaskServiceImpl implements TaskService {
     public Task createTask(@Valid Task task) {
         validation.validateTaskOnCreating(task);
         return taskRepository.save(task);
+    }
+
+    @Override
+    public Task getById(Long taskId) {
+        return taskRepository.findById(taskId).orElseThrow(() -> new DoNotExistException("Task not found"));
     }
 
     @Override

@@ -1,15 +1,16 @@
 package com.taskflow.taskmanagement.converters;
 
+import com.taskflow.taskmanagement.dtos.task.request.TaskAssignRequest;
 import com.taskflow.taskmanagement.dtos.task.request.TaskRequest;
 import com.taskflow.taskmanagement.dtos.task.response.TaskResponse;
 import com.taskflow.taskmanagement.entities.Tag;
 import com.taskflow.taskmanagement.entities.Task;
 import com.taskflow.taskmanagement.entities.User;
 import com.taskflow.taskmanagement.enums.TaskStatus;
-import com.taskflow.taskmanagement.repositories.TaskRepository;
 import com.taskflow.taskmanagement.services.AuthenticationService;
 import com.taskflow.taskmanagement.services.TagService;
 import com.taskflow.taskmanagement.services.TaskService;
+import com.taskflow.taskmanagement.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,10 @@ public class TaskConverter {
     private final AuthenticationService authenticationService;
 
     private final UserConverter userConverter;
+
+    private final TaskService taskService;
+
+    private final UserService userService;
 
     public Task convertToEntity(TaskRequest taskRequest) {
 
@@ -40,6 +45,19 @@ public class TaskConverter {
                 .endDate(taskRequest.getEndDate())
                 .status(TaskStatus.TODO)
                 .tags(tags)
+                .build();
+    }
+
+    public Task convertToEntity(TaskAssignRequest taskAssignRequest) {
+
+        User userAssignedTo = userService.getByEmail(taskAssignRequest.getAssignedUserEmail());
+        User userAssignedBy = authenticationService.getCurrentAuthenticatedUser();
+        Task task = taskService.getById(taskAssignRequest.getTaskId());
+
+        return Task.builder()
+                .id(task.getId())
+                .assignedBy(userAssignedBy)
+                .assignedTo(userAssignedTo)
                 .build();
     }
 
