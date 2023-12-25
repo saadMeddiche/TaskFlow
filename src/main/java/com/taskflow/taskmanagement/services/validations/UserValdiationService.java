@@ -10,14 +10,13 @@ import org.springframework.stereotype.Component;
 import java.util.function.Predicate;
 
 @Component
-@RequiredArgsConstructor
 public class UserValdiationService extends BaseValidation {
 
     private  UserRepository userRepository;
 
-    private final Predicate<User> EMAIL_ALREADY_EXISTS = user -> userRepository.existsByEmail(user.getEmail());
-
-    private final Predicate<User> USERNAME_ALREADY_EXISTS = user -> userRepository.existsByUsername(user.getUsername());
+    public UserValdiationService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     public void validateUserOnCreating(User user) {
 
@@ -28,6 +27,10 @@ public class UserValdiationService extends BaseValidation {
         throwExceptionIf(USERNAME_ALREADY_EXISTS, user, AlreadyExistsException::new, "Username Already Exists");
 
     }
+
+    private final Predicate<User> EMAIL_ALREADY_EXISTS = user -> userRepository.existsByEmail(user.getEmail());
+
+    private final Predicate<User> USERNAME_ALREADY_EXISTS = user -> userRepository.existsByUsername(user.getUsername());
 
 
 }

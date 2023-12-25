@@ -12,10 +12,13 @@ import java.time.LocalDate;
 import java.util.function.Predicate;
 
 @Component
-@RequiredArgsConstructor
 public class TaskValidationService extends BaseValidation {
 
     private AuthenticationService auth;
+
+    public TaskValidationService(AuthenticationService auth) {
+        this.auth = auth;
+    }
 
     public void validateTaskOnCreating(Task task) {
 
@@ -52,9 +55,10 @@ public class TaskValidationService extends BaseValidation {
 
         throwExceptionIf(TASK_END_DATE_HAS_PASSED, task, DateValidationException::new, "Task has passed its end date");
 
+        throwExceptionIf(TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER, task, ValidationException::new, "You must be the assignee of the task");
+
         throwExceptionIf(TASK_CREATOR_NOT_THE_AUTHENTICATED_USER, task, ValidationException::new, "You must be the creator of the task");
 
-        throwExceptionIf(TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER, task, ValidationException::new, "You must be the assignee of the task");
     }
 
     private static final Predicate<Task> TASK_HAS_LESS_THAN_THREE_TAGS = task -> task.getTags().size() < 3;
