@@ -8,6 +8,8 @@ public interface TaskService {
 
     public void assignTask(Task task);
 
+    public void assignAdditionalTask(Task task);
+
     public void markTaskAsDone(Task task);
 
     public void replaceTask(Task currentTask, Task newTask);

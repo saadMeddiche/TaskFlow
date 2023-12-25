@@ -45,4 +45,24 @@ public class TaskController {
 
         return new ResponseEntity<>(createdTaskResponse , HttpStatus.CREATED);
     }
+
+    @PostMapping("/assignTask")
+    public ResponseEntity<?> assignTask(@Valid @RequestBody TaskRequest taskRequest) {
+
+        Task task = taskConverter.convertToEntity(taskRequest);
+
+        taskService.assignTask(task);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/assignAdditionalTask")
+    public ResponseEntity<?> assignAdditionalTask(@Valid @RequestBody TaskRequest taskRequest) {
+
+        Task task = taskConverter.convertToEntity(taskRequest);
+
+        taskService.assignAdditionalTask(task);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

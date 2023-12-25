@@ -23,7 +23,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void assignTask(Task task) {
+        validation.validateTaskOnAssignTask(task);
+        taskRepository.save(task);
+    }
 
+    @Override
+    public void assignAdditionalTask(Task task) {
+        validation.validateTaskOnAssigningAdditionalTask(task);
+        taskRepository.save(task);
     }
 
     @Override

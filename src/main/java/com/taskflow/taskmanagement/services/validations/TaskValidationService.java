@@ -24,4 +24,12 @@ public class TaskValidationService extends BaseValidation {
 
     }
 
+    public void validateTaskOnAssigningAdditionalTask(Task task) {
+
+    }
+
+    public void validateTaskOnAssignTask(Task task) {
+
+    }
+
 }
