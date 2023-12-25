@@ -35,5 +35,6 @@ public class TaskResponse {
 
     private TaskStatus status;
 
+    @JsonIgnoreProperties("tasks")
     private List<Tag> tags;
 }
