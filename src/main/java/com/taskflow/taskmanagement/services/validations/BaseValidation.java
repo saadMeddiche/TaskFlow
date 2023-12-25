@@ -1,12 +1,10 @@
 package com.taskflow.taskmanagement.services.validations;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
+import jakarta.validation.*;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.function.Predicate;
 
 public abstract class BaseValidation {
 
@@ -21,5 +19,14 @@ public abstract class BaseValidation {
                     throw new ConstraintViolationException(Set.of(violation));
                 });
 
+    }
+
+    protected  <O, E extends Exception> void throwExceptionIf(Predicate<O> predicate, O value, ExceptionSupplier<E> exceptionSupplier, String message) throws E {
+        if (predicate.test(value)) throw exceptionSupplier.get(message);
+    }
+
+    @FunctionalInterface
+    interface ExceptionSupplier<E extends Exception> {
+        E get(String message);
     }
 }

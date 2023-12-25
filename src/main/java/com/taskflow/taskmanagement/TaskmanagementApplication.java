@@ -5,6 +5,7 @@ import com.taskflow.taskmanagement.entities.Role;
 import com.taskflow.taskmanagement.entities.Tag;
 import com.taskflow.taskmanagement.entities.User;
 import com.taskflow.taskmanagement.permissions.TagPermissions;
+import com.taskflow.taskmanagement.permissions.TaskPermissions;
 import com.taskflow.taskmanagement.repositories.TagRepository;
 import com.taskflow.taskmanagement.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -40,17 +41,22 @@ public class TaskmanagementApplication {
 		};
 	}
 
+
 	private void createDefaultDataForOfUsers(){
 
 		Permission accessToAll = new Permission(1L , "*");
 
 		List<Permission> permissions = new ArrayList<>();
-		permissions.add(new Permission(2L , "DELETE_OWN_CARD"));
-		permissions.add(new Permission(3L , "EDIT_OWN_CARD"));
-		permissions.add(new Permission(4L , "ADD_OWN_CARD"));
-		permissions.add(new Permission(5L , "BIND_TAGS_TO_OWN_CARD"));
-		permissions.add(new Permission(6L , TagPermissions.ADD_TAG.name()));
-		permissions.add(new Permission(7L , TagPermissions.DELETE_TAG.name()));
+		permissions.add(new Permission(2L , TagPermissions.ADD_TAG.name()));
+		permissions.add(new Permission(3L , TagPermissions.DELETE_TAG.name()));
+		permissions.add(new Permission(4L , TaskPermissions.ASSIGN_ADDITIONAL_TASK.name()));
+		permissions.add(new Permission(5L , TaskPermissions.CREATE_TASK.name()));
+		permissions.add(new Permission(6L , TaskPermissions.CHANGE_TASK_STATUS.name()));
+//		permissions.add(new Permission(6L , TaskPermissions.MARK_TASK_AS_DONE.name()));
+//		permissions.add(new Permission(7L , TaskPermissions.REPLACE_TASK.name()));
+//		permissions.add(new Permission(8L , TaskPermissions.DEMAND_REPLACEMENT.name()));
+//		permissions.add(new Permission(9L , TaskPermissions.DELETE_TASK.name()));
+
 
 		Role adminRole = new Role(1L , "LEAD_ADMIN" , List.of(accessToAll));
 

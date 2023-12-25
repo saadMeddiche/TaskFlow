@@ -16,6 +16,10 @@ public class BaseService<O> {
         this.repository = baseRepository;
     }
 
+    public O getEntityById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new DoNotExistException("No "+ entityClass.getSimpleName()+" has been found with id: " + id));
+    }
+
     public void deleteEntityById(Long id){
         Optional.of(repository.findById(id)).filter(Optional::isPresent).orElseThrow(() -> new DoNotExistException("No "+ entityClass.getSimpleName()+" has been found with id: " + id));
         repository.deleteById(id);

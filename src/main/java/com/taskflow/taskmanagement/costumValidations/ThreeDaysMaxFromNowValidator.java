@@ -22,6 +22,10 @@ public class ThreeDaysMaxFromNowValidator implements ConstraintValidator<ThreeDa
 
         long daysDifference = ChronoUnit.DAYS.between(currentDate, date);
 
+        System.out.printf("date = %s%n", date);
+
+        System.out.printf("\ndaysDifference = %d%n\n", daysDifference);
+
         return daysDifference <= 3;
     }
 

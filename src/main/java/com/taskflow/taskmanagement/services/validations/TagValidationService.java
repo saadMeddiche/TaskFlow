@@ -4,24 +4,24 @@ import com.taskflow.taskmanagement.entities.Tag;
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.AlreadyExistsException;
 import com.taskflow.taskmanagement.repositories.TagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
-public class TagValidationService extends BaseValidation {
+import java.util.function.Predicate;
 
-    private final TagRepository tagRepository;
+@Component
+public class TagValidationService extends BaseValidation {
+    private TagRepository tagRepository;
+
+    public TagValidationService(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
+
+    private final Predicate<Tag> TAG_NAME_ALREADY_EXISTS = tag -> tagRepository.existsByName(tag.getName());
 
     public void validateTagOnCreating(Tag tag) {
-
         validateObject(tag);
-
-        throwExceptionIfTagAlreadyExists(tag);
-    }
-
-    private void throwExceptionIfTagAlreadyExists(Tag tag) {
-        if(tagRepository.existsByName(tag.getName())) {
-            throw new AlreadyExistsException("Tag already exists");
-        }
+        throwExceptionIf(TAG_NAME_ALREADY_EXISTS, tag, AlreadyExistsException::new, "Tag Name Already Exists");
     }
 }
+

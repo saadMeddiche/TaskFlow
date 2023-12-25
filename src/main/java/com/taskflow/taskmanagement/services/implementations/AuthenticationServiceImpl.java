@@ -11,6 +11,9 @@ import com.taskflow.taskmanagement.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,6 +65,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         // Return the JWT token in the response
         return JwtAuthenticationResponse.builder().token(jwt).build();
+    }
+
+    @Override
+    public User getCurrentAuthenticatedUser() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String username = userDetails.getUsername();
+
+        return userService.findByUsername(username);
     }
 
     private User buildUser(SignUpRequest request) {

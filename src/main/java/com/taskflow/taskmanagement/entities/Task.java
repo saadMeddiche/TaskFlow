@@ -18,7 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 public class Task {
 
@@ -42,6 +41,7 @@ public class Task {
     private LocalDate endDate;
 
     @ManyToOne
+    @NotNull(message = "Created By of task cannot be null")
     private User createdBy;
 
     @ManyToOne
