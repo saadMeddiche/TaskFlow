@@ -1,6 +1,7 @@
 package com.taskflow.taskmanagement.services.implementations;
 
 import com.taskflow.taskmanagement.entities.Task;
+import com.taskflow.taskmanagement.enums.TaskStatus;
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.DoNotExistException;
 import com.taskflow.taskmanagement.repositories.TaskRepository;
 import com.taskflow.taskmanagement.services.TaskService;
@@ -42,6 +43,22 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void markTaskAsDone(Task task) {
 
+        validation.validateTaskOnMarkingAsDone(task);
+
+        task.setStatus(TaskStatus.Done);
+
+        taskRepository.save(task);
+
+    }
+
+    @Override
+    public void markTaskAsInProgress(Task task) {
+
+        validation.validateTaskOnMarkingAsInProgress(task);
+
+        task.setStatus(TaskStatus.InProgress);
+
+        taskRepository.save(task);
     }
 
     @Override

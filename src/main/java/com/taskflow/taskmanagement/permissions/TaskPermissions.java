@@ -7,6 +7,8 @@ public enum TaskPermissions {
 
     ASSIGN_ADDITIONAL_TASK,
 
+    CHANGE_TASK_STATUS,
+
     MARK_TASK_AS_DONE,
     REPLACE_TASK,
     DEMAND_REPLACEMENT,

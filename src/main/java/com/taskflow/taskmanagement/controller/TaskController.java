@@ -50,12 +50,33 @@ public class TaskController {
     }
 
     @GetMapping({"/assignAdditionalTask/{taskId}" , "/assignAdditionalTask/"} )
-    public ResponseEntity<?> assignAdditionalTask(@Valid @PathVariable Long taskId) {
+    public ResponseEntity<?> assignAdditionalTask(@PathVariable Long taskId) {
 
         Task task = taskConverter.convertToEntity(taskId);
 
         taskService.assignAdditionalTask(task);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/setTaskAsDone/{taskId}")
+    public ResponseEntity<?> setTaskAsDone(@PathVariable Long taskId) {
+
+        Task task = taskConverter.convertToEntity(taskId);
+
+        taskService.markTaskAsDone(task);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/setTaskAsInProgress/{taskId}")
+    public ResponseEntity<?> setTaskAsInProgress(@PathVariable Long taskId) {
+
+        Task task = taskConverter.convertToEntity(taskId);
+
+        taskService.markTaskAsInProgress(task);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 }

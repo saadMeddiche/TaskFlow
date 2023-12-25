@@ -51,6 +51,7 @@ public class TaskmanagementApplication {
 		permissions.add(new Permission(3L , TagPermissions.DELETE_TAG.name()));
 		permissions.add(new Permission(4L , TaskPermissions.ASSIGN_ADDITIONAL_TASK.name()));
 		permissions.add(new Permission(5L , TaskPermissions.CREATE_TASK.name()));
+		permissions.add(new Permission(6L , TaskPermissions.CHANGE_TASK_STATUS.name()));
 //		permissions.add(new Permission(6L , TaskPermissions.MARK_TASK_AS_DONE.name()));
 //		permissions.add(new Permission(7L , TaskPermissions.REPLACE_TASK.name()));
 //		permissions.add(new Permission(8L , TaskPermissions.DEMAND_REPLACEMENT.name()));
