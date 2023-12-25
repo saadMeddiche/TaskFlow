@@ -32,8 +32,6 @@ public class TaskValidationService extends BaseValidation {
 
     public void validateTaskOnAssigningAdditionalTask(Task task) {
 
-        validateObject(task);
-
         throwExceptionIf(TASK_ASSIGNER_NOT_SAME_AS_ASSIGNED_USER, task, ValidationException::new, "Task assigner must be same as assigned user");
 
         throwExceptionIf(TASK_CREATOR_NOT_THE_ASSIGNER , task, ValidationException::new, "Task creator must be same as assigner");
