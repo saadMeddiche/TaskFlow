@@ -1,6 +1,7 @@
 package com.taskflow.taskmanagement.converters;
 
 import com.taskflow.taskmanagement.dtos.task.request.TaskRequest;
+import com.taskflow.taskmanagement.dtos.task.response.TaskResponse;
 import com.taskflow.taskmanagement.entities.Tag;
 import com.taskflow.taskmanagement.entities.Task;
 import com.taskflow.taskmanagement.entities.User;
@@ -22,6 +23,8 @@ public class TaskConverter {
 
     private final AuthenticationService authenticationService;
 
+    private final UserConverter userConverter;
+
     public Task convertToEntity(TaskRequest taskRequest) {
 
         List<Tag> tags = mapTags(taskRequest.getTagsId());
@@ -37,6 +40,21 @@ public class TaskConverter {
                 .endDate(taskRequest.getEndDate())
                 .status(TaskStatus.TODO)
                 .tags(tags)
+                .build();
+    }
+
+    public TaskResponse convertToTaskResponse(Task task) {
+
+        return TaskResponse.builder()
+                .name(task.getName())
+                .description(task.getDescription())
+                .startDate(task.getStartDate())
+                .endDate(task.getEndDate())
+                .createdBy(userConverter.convertToUserResponse(task.getCreatedBy()))
+                .assignedBy(userConverter.convertToUserResponse(task.getAssignedBy()))
+                .assignedTo(userConverter.convertToUserResponse(task.getAssignedTo()))
+                .status(task.getStatus())
+                .tags(task.getTags())
                 .build();
     }
 

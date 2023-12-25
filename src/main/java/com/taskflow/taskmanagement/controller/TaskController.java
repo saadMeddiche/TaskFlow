@@ -2,6 +2,7 @@ package com.taskflow.taskmanagement.controller;
 
 import com.taskflow.taskmanagement.converters.TaskConverter;
 import com.taskflow.taskmanagement.dtos.task.request.TaskRequest;
+import com.taskflow.taskmanagement.dtos.task.response.TaskResponse;
 import com.taskflow.taskmanagement.entities.Task;
 import com.taskflow.taskmanagement.entities.User;
 import com.taskflow.taskmanagement.enums.TaskStatus;
@@ -40,6 +41,8 @@ public class TaskController {
 
         Task createdTask = taskService.createTask(task);
 
-        return new ResponseEntity<>(createdTask , HttpStatus.CREATED);
+        TaskResponse createdTaskResponse = taskConverter.convertToTaskResponse(createdTask);
+
+        return new ResponseEntity<>(createdTaskResponse , HttpStatus.CREATED);
     }
 }
