@@ -1,6 +1,7 @@
 package com.taskflow.taskmanagement.handlingExceptions;
 
 
+
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.ConstraintViolation;
@@ -9,10 +10,14 @@ import org.hibernate.query.QueryArgumentException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -48,16 +53,6 @@ public class ExceptionHandlerFactory {
         return new ResponseEntity<>(List.of(exception.getError()) , HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<?> handleAuthorizationException(AuthorizationException exception) {
-        return new ResponseEntity<>(List.of() , HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<?> handleAuthenticationException(AuthenticationException exception) {
-        return new ResponseEntity<>(List.of() , HttpStatus.UNAUTHORIZED);
-    }
-
     @ExceptionHandler(QueryArgumentException.class)
     public ResponseEntity<?> handleQueryArgumentException(QueryArgumentException exception) {
         return new ResponseEntity<>(exception.getMessage() , HttpStatus.BAD_REQUEST);
@@ -68,6 +63,20 @@ public class ExceptionHandlerFactory {
         return new ResponseEntity<>(List.of(exception.getMessage()) , HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(MissingPathVariableException.class)
+    public ResponseEntity<?> handleMissingPathVariableException(MissingPathVariableException exception) {
+        return new ResponseEntity<>(List.of(exception.getMessage()) , HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
+        return new ResponseEntity<>(List.of(exception.getMessage()) , HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<?> handleMethodArgumentTypeMismatchException(BadCredentialsException exception) {
+        return new ResponseEntity<>(List.of("Invalid username or password") , HttpStatus.BAD_REQUEST);
+    }
     // Yeh I know ,  I also do not like this one
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<?> handleDHttpMessageNotReadableException(HttpMessageNotReadableException exception) {

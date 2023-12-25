@@ -49,7 +49,7 @@ public class TaskController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/assignAdditionalTask/{taskId}")
+    @GetMapping({"/assignAdditionalTask/{taskId}" , "/assignAdditionalTask/"} )
     public ResponseEntity<?> assignAdditionalTask(@Valid @PathVariable Long taskId) {
 
         Task task = taskConverter.convertToEntity(taskId);

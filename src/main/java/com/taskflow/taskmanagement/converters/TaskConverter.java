@@ -54,11 +54,10 @@ public class TaskConverter {
         User userAssignedBy = authenticationService.getCurrentAuthenticatedUser();
         Task task = taskService.getById(taskAssignRequest.getTaskId());
 
-        return Task.builder()
-                .id(task.getId())
-                .assignedBy(userAssignedBy)
-                .assignedTo(userAssignedTo)
-                .build();
+        task.setAssignedTo(userAssignedTo);
+        task.setAssignedBy(userAssignedBy);
+
+        return task;
     }
 
     public Task convertToEntity(Long taskId) {
@@ -67,11 +66,11 @@ public class TaskConverter {
 
         User userAuthenticated = authenticationService.getCurrentAuthenticatedUser();
 
-        return Task.builder()
-                .id(task.getId())
-                .assignedBy(userAuthenticated)
-                .assignedTo(userAuthenticated)
-                .build();
+        task.setAssignedTo(userAuthenticated);
+        task.setAssignedBy(userAuthenticated);
+
+        return task;
+
     }
 
     public TaskResponse convertToTaskResponse(Task task) {
