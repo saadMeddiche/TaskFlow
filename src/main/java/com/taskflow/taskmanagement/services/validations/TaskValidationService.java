@@ -1,11 +1,9 @@
 package com.taskflow.taskmanagement.services.validations;
 
 import com.taskflow.taskmanagement.entities.Task;
-import com.taskflow.taskmanagement.entities.User;
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.DateValidationException;
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.ValidationException;
 import com.taskflow.taskmanagement.services.AuthenticationService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
