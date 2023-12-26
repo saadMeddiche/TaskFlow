@@ -80,9 +80,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTask(Task task) {
 
+
         validation.validateTaskOnDeleting(task);
 
-        cardService.useDeleteCard(auth.getCurrentAuthenticatedUser());
+        User authnticatedUser = auth.getCurrentAuthenticatedUser();
+
+        if(!authnticatedUser.equals(task.getCreatedBy())) cardService.useDeleteCard(auth.getCurrentAuthenticatedUser());
 
         taskRepository.delete(task);
 

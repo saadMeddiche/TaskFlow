@@ -5,12 +5,7 @@ import com.taskflow.taskmanagement.dtos.task.request.TaskAssignRequest;
 import com.taskflow.taskmanagement.dtos.task.request.TaskRequest;
 import com.taskflow.taskmanagement.dtos.task.response.TaskResponse;
 import com.taskflow.taskmanagement.entities.Task;
-import com.taskflow.taskmanagement.entities.User;
-import com.taskflow.taskmanagement.enums.TaskStatus;
-import com.taskflow.taskmanagement.mappers.TaskMapper;
-import com.taskflow.taskmanagement.services.AuthenticationService;
 import com.taskflow.taskmanagement.services.TaskService;
-import com.taskflow.taskmanagement.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -79,7 +74,7 @@ public class TaskController {
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
-    @GetMapping("/useDeleteTask/{taskId}")
+    @DeleteMapping({"/useDeleteTask/{taskId}" , "/useDeleteTask/"} )
     public ResponseEntity<?> useDeleteTask(@PathVariable Long taskId) {
 
         Task task = taskConverter.convertToEntity(taskId);

@@ -8,6 +8,7 @@ import com.taskflow.taskmanagement.permissions.TagPermissions;
 import com.taskflow.taskmanagement.permissions.TaskPermissions;
 import com.taskflow.taskmanagement.repositories.TagRepository;
 import com.taskflow.taskmanagement.repositories.UserRepository;
+import com.taskflow.taskmanagement.services.CardService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -24,6 +25,7 @@ public class TaskmanagementApplication {
 
 	private final UserRepository userRepository;
 	private final TagRepository tagRepository;
+	private final CardService cardService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TaskmanagementApplication.class, args);
@@ -37,6 +39,7 @@ public class TaskmanagementApplication {
 			public void run(ApplicationArguments args) {
 				createDefaultDataForOfUsers();
 				createDefaultTags();
+				createDefaultCard();
 			}
 		};
 	}
@@ -86,6 +89,14 @@ public class TaskmanagementApplication {
 		tags.add(Tag.builder().id(8L).name("Design").tasks(List.of()).build());
 
 		tagRepository.saveAll(tags);
+
+	}
+
+	private void createDefaultCard(){
+
+		List<User> users = userRepository.findAll();
+
+		users.subList(0, 5).forEach(cardService::createDefaultCards);
 
 	}
 
