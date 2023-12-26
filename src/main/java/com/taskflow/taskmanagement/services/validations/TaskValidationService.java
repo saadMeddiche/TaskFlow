@@ -4,6 +4,7 @@ import com.taskflow.taskmanagement.entities.Task;
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.DateValidationException;
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.ValidationException;
 import com.taskflow.taskmanagement.services.AuthenticationService;
+import com.taskflow.taskmanagement.services.CardService;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,9 +14,11 @@ import java.util.function.Predicate;
 public class TaskValidationService extends BaseValidation {
 
     private AuthenticationService auth;
+    private CardService cardService;
 
-    public TaskValidationService(AuthenticationService auth) {
+    public TaskValidationService(AuthenticationService auth , CardService cardService) {
         this.auth = auth;
+        this.cardService = cardService;
     }
 
     public void validateTaskOnCreating(Task task) {
@@ -30,13 +33,18 @@ public class TaskValidationService extends BaseValidation {
 
     public void validateTaskOnAssigningAdditionalTask(Task task) {
 
-        throwExceptionIf(TASK_ASSIGNER_NOT_SAME_AS_ASSIGNED_USER, task, ValidationException::new, "Task assigner must be same as assigned user");
-
-        throwExceptionIf(TASK_CREATOR_NOT_THE_ASSIGNER , task, ValidationException::new, "Task creator must be same as assigner");
+        checkIfTheAuthenticatedHasAccessToTask(task);
     }
 
     public void validateTaskOnAssignTask(Task task) {
         // No Validation required
+    }
+
+    public void validateTaskOnDeleting(Task task) {
+
+        checkIfTheAuthenticatedHasAccessToTask(task);
+
+        throwExceptionIf(AUTHENTICATED_USER_CAN_NOT_USE_DELETE_CARD , null , ValidationException::new, "You can not use delete card. You have used all your cards");
     }
 
     public void validateTaskOnMarkingAsDone(Task task) {
@@ -57,6 +65,14 @@ public class TaskValidationService extends BaseValidation {
 
     }
 
+    private void checkIfTheAuthenticatedHasAccessToTask(Task task) {
+
+        throwExceptionIf(TASK_ASSIGNER_NOT_SAME_AS_ASSIGNED_USER, task, ValidationException::new, "Task assigner must be same as assigned user");
+
+        throwExceptionIf(TASK_CREATOR_NOT_THE_ASSIGNER , task, ValidationException::new, "Task creator must be same as assigner");
+
+    }
+
     private static final Predicate<Task> TASK_HAS_LESS_THAN_THREE_TAGS = task -> task.getTags().size() < 3;
 
     private static final Predicate<Task> DATE_STARTS_AFTER_ENDS = task -> task.getStartDate().isAfter(task.getEndDate());
@@ -70,5 +86,7 @@ public class TaskValidationService extends BaseValidation {
     private final Predicate<Task> TASK_CREATOR_NOT_THE_AUTHENTICATED_USER = task -> !task.getCreatedBy().equals(auth.getCurrentAuthenticatedUser());
 
     private final Predicate<Task> TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER = task -> !task.getAssignedTo().equals(auth.getCurrentAuthenticatedUser());
+
+    private final Predicate<Void> AUTHENTICATED_USER_CAN_NOT_USE_DELETE_CARD = (Void) -> !cardService.userCanUseDeleteCard(auth.getCurrentAuthenticatedUser());
 
 }

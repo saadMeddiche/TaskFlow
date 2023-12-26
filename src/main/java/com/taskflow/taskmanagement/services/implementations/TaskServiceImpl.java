@@ -1,9 +1,12 @@
 package com.taskflow.taskmanagement.services.implementations;
 
 import com.taskflow.taskmanagement.entities.Task;
+import com.taskflow.taskmanagement.entities.User;
 import com.taskflow.taskmanagement.enums.TaskStatus;
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.DoNotExistException;
 import com.taskflow.taskmanagement.repositories.TaskRepository;
+import com.taskflow.taskmanagement.services.AuthenticationService;
+import com.taskflow.taskmanagement.services.CardService;
 import com.taskflow.taskmanagement.services.TaskService;
 import com.taskflow.taskmanagement.services.validations.TaskValidationService;
 import jakarta.validation.Valid;
@@ -17,6 +20,10 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     private final TaskValidationService validation;
+
+    private final CardService cardService;
+
+    private final AuthenticationService auth;
     @Override
     public Task createTask(@Valid Task task) {
         validation.validateTaskOnCreating(task);
@@ -68,11 +75,16 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void demandReplacement(Task task) {
-
     }
 
     @Override
     public void deleteTask(Task task) {
+
+        validation.validateTaskOnDeleting(task);
+
+        cardService.useDeleteCard(auth.getCurrentAuthenticatedUser());
+
+        taskRepository.delete(task);
 
     }
 }
