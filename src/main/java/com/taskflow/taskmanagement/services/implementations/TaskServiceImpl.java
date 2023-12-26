@@ -85,9 +85,10 @@ public class TaskServiceImpl implements TaskService {
 
         User authnticatedUser = auth.getCurrentAuthenticatedUser();
 
+        // if the authenticated user is the creator , do not use cards (jetons)
         if(!authnticatedUser.equals(task.getCreatedBy())) cardService.useDeleteCard(auth.getCurrentAuthenticatedUser());
 
-        taskRepository.delete(task);
+        taskRepository.deleteById(task.getId());
 
     }
 }

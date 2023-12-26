@@ -79,7 +79,7 @@ public class TaskValidationService extends BaseValidation {
 
     private final Predicate<Task> TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER = task -> !task.getAssignedTo().equals(auth.getCurrentAuthenticatedUser());
 
-    private final Predicate<Task> THE_AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR = task -> TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER.test(task) && TASK_CREATOR_NOT_THE_AUTHENTICATED_USER.test(task);
+    private final Predicate<Task> THE_AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR = task -> TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER.test(task) || TASK_CREATOR_NOT_THE_AUTHENTICATED_USER.test(task);
 
     private final Predicate<Void> AUTHENTICATED_USER_CAN_NOT_USE_DELETE_CARD = (Void) -> !cardService.userCanUseDeleteCard(auth.getCurrentAuthenticatedUser());
 
