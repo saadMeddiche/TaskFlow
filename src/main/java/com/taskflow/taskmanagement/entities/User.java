@@ -58,7 +58,7 @@ public class User implements UserDetails {
     @JsonIgnoreProperties({"users" , "permissions"})
     private List<Role> roles;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy =  "user" , cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")
     private List<Card> cards;
 

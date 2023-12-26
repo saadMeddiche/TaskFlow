@@ -25,7 +25,7 @@ public class Card {
     @Positive(message = "Number of utilisation cannot be negative or zero")
     private Integer numberOfUtilisation;
 
-    @NotNull(message = "Name of card cannot be null")
+    @NotNull(message = "The User of card cannot be null")
     @ManyToOne
     @JsonIgnoreProperties("cards")
     private User user;

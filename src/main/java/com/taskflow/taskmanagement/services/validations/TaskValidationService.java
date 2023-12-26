@@ -33,7 +33,9 @@ public class TaskValidationService extends BaseValidation {
 
     public void validateTaskOnAssigningAdditionalTask(Task task) {
 
-        checkIfTheAuthenticatedHasAccessToTask(task);
+        throwExceptionIf(TASK_ASSIGNER_NOT_SAME_AS_ASSIGNED_USER, task, ValidationException::new, "Task assigner must be same as assigned user");
+
+        throwExceptionIf(TASK_CREATOR_NOT_THE_ASSIGNER , task, ValidationException::new, "Task creator must be same as assigner");
     }
 
     public void validateTaskOnAssignTask(Task task) {
@@ -42,7 +44,7 @@ public class TaskValidationService extends BaseValidation {
 
     public void validateTaskOnDeleting(Task task) {
 
-        checkIfTheAuthenticatedHasAccessToTask(task);
+        throwExceptionIf(THE_AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR, task, ValidationException::new, "You must be the assignee or creator of the task");
 
         throwExceptionIf(AUTHENTICATED_USER_CAN_NOT_USE_DELETE_CARD , null , ValidationException::new, "You can not use delete card. You have used all your cards");
     }
@@ -59,17 +61,7 @@ public class TaskValidationService extends BaseValidation {
 
         throwExceptionIf(TASK_END_DATE_HAS_PASSED, task, DateValidationException::new, "Task has passed its end date");
 
-        throwExceptionIf(TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER, task, ValidationException::new, "You must be the assignee of the task");
-
-        throwExceptionIf(TASK_CREATOR_NOT_THE_AUTHENTICATED_USER, task, ValidationException::new, "You must be the creator of the task");
-
-    }
-
-    private void checkIfTheAuthenticatedHasAccessToTask(Task task) {
-
-        throwExceptionIf(TASK_ASSIGNER_NOT_SAME_AS_ASSIGNED_USER, task, ValidationException::new, "Task assigner must be same as assigned user");
-
-        throwExceptionIf(TASK_CREATOR_NOT_THE_ASSIGNER , task, ValidationException::new, "Task creator must be same as assigner");
+        throwExceptionIf(THE_AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR, task, ValidationException::new, "You must be the assignee or creator of the task");
 
     }
 
@@ -86,6 +78,8 @@ public class TaskValidationService extends BaseValidation {
     private final Predicate<Task> TASK_CREATOR_NOT_THE_AUTHENTICATED_USER = task -> !task.getCreatedBy().equals(auth.getCurrentAuthenticatedUser());
 
     private final Predicate<Task> TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER = task -> !task.getAssignedTo().equals(auth.getCurrentAuthenticatedUser());
+
+    private final Predicate<Task> THE_AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR = task -> TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER.test(task) && TASK_CREATOR_NOT_THE_AUTHENTICATED_USER.test(task);
 
     private final Predicate<Void> AUTHENTICATED_USER_CAN_NOT_USE_DELETE_CARD = (Void) -> !cardService.userCanUseDeleteCard(auth.getCurrentAuthenticatedUser());
 

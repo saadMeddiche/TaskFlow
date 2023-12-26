@@ -1,11 +1,11 @@
 package com.taskflow.taskmanagement;
 
-import com.taskflow.taskmanagement.entities.Permission;
-import com.taskflow.taskmanagement.entities.Role;
-import com.taskflow.taskmanagement.entities.Tag;
-import com.taskflow.taskmanagement.entities.User;
+import com.taskflow.taskmanagement.entities.*;
+import com.taskflow.taskmanagement.enums.CardType;
+import com.taskflow.taskmanagement.enums.RangeType;
 import com.taskflow.taskmanagement.permissions.TagPermissions;
 import com.taskflow.taskmanagement.permissions.TaskPermissions;
+import com.taskflow.taskmanagement.repositories.CardRepository;
 import com.taskflow.taskmanagement.repositories.TagRepository;
 import com.taskflow.taskmanagement.repositories.UserRepository;
 import com.taskflow.taskmanagement.services.CardService;
@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @SpringBootApplication
 @AllArgsConstructor
@@ -25,7 +26,7 @@ public class TaskmanagementApplication {
 
 	private final UserRepository userRepository;
 	private final TagRepository tagRepository;
-	private final CardService cardService;
+	private final CardRepository cardRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TaskmanagementApplication.class, args);
@@ -92,12 +93,29 @@ public class TaskmanagementApplication {
 
 	}
 
-	private void createDefaultCard(){
+	private void createDefaultCard() {
 
 		List<User> users = userRepository.findAll();
 
-		users.subList(0, 5).forEach(cardService::createDefaultCards);
+		IntStream.range(0,  5)
+				.forEach(index -> {
+					User user = users.get(index);
 
+					Card cardDeletion = createCard(index * 2 + 1, user, 1, CardType.Deletion, RangeType.PerMonth);
+					Card cardModification = createCard(index * 2 + 2, user, 2, CardType.Modification, RangeType.PerDay);
+
+					cardRepository.saveAll(List.of(cardDeletion, cardModification));
+				});
+	}
+
+	private Card createCard(long id, User user, int numberOfUtilisation, CardType type, RangeType rangeType) {
+		return Card.builder()
+				.id(id)
+				.user(user)
+				.numberOfUtilisation(numberOfUtilisation)
+				.type(type)
+				.rangeType(rangeType)
+				.build();
 	}
 
 
