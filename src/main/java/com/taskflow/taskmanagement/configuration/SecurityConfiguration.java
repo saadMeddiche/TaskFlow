@@ -1,5 +1,6 @@
 package com.taskflow.taskmanagement.configuration;
 
+import com.taskflow.taskmanagement.permissions.DemandPermissions;
 import com.taskflow.taskmanagement.permissions.TagPermissions;
 import com.taskflow.taskmanagement.permissions.TaskPermissions;
 import com.taskflow.taskmanagement.services.UserService;
@@ -52,6 +53,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET ,"/api/v1/tasks/assignAdditionalTask/{taskId}").hasAnyAuthority(TaskPermissions.ASSIGN_ADDITIONAL_TASK.name() , "*")
                         .requestMatchers(HttpMethod.GET ,"/api/v1/tasks/setTaskAsDone/{taskId}").hasAnyAuthority(TaskPermissions.CHANGE_TASK_STATUS.name() , "*")
                         .requestMatchers(HttpMethod.GET ,"/api/v1/tasks/setTaskAsInProgress/{taskId}").hasAnyAuthority(TaskPermissions.CHANGE_TASK_STATUS.name() , "*")
+                        .requestMatchers(HttpMethod.POST , "/api/v1/demands").hasAnyAuthority(DemandPermissions.MAKE_DEMAND.name() , "*")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
