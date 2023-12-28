@@ -3,8 +3,10 @@ package com.taskflow.taskmanagement.services.validations;
 import com.taskflow.taskmanagement.entities.Task;
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.DateValidationException;
 import com.taskflow.taskmanagement.handlingExceptions.costumExceptions.ValidationException;
+import com.taskflow.taskmanagement.repositories.DemandRepository;
 import com.taskflow.taskmanagement.services.AuthenticationService;
 import com.taskflow.taskmanagement.services.CardService;
+import com.taskflow.taskmanagement.services.DemandService;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -16,9 +18,12 @@ public class TaskValidationService extends BaseValidation {
     private AuthenticationService auth;
     private CardService cardService;
 
-    public TaskValidationService(AuthenticationService auth , CardService cardService) {
+    private DemandService demandService;
+
+    public TaskValidationService(AuthenticationService auth , CardService cardService , DemandService demandService) {
         this.auth = auth;
         this.cardService = cardService;
+        this.demandService = demandService;
     }
 
     public void validateTaskOnCreating(Task task) {
@@ -44,7 +49,9 @@ public class TaskValidationService extends BaseValidation {
 
     public void validateTaskOnDeleting(Task task) {
 
-        throwExceptionIf(THE_AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR, task, ValidationException::new, "You must be the assignee or creator of the task");
+        throwExceptionIf(TASK_IS_ALREADY_REPLACED_ONCE , task, ValidationException::new, "Task is already replaced once");
+
+        throwExceptionIf(AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR, task, ValidationException::new, "You must be the assignee or creator of the task");
 
         throwExceptionIf(AUTHENTICATED_USER_CAN_NOT_USE_DELETE_CARD , null , ValidationException::new, "You can not use delete card. You have used all your cards");
     }
@@ -61,7 +68,7 @@ public class TaskValidationService extends BaseValidation {
 
         throwExceptionIf(TASK_END_DATE_HAS_PASSED, task, DateValidationException::new, "Task has passed its end date");
 
-        throwExceptionIf(THE_AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR, task, ValidationException::new, "You must be the assignee or creator of the task");
+        throwExceptionIf(AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR, task, ValidationException::new, "You must be the assignee or creator of the task");
 
     }
 
@@ -75,11 +82,13 @@ public class TaskValidationService extends BaseValidation {
 
     private static final Predicate<Task> TASK_END_DATE_HAS_PASSED = task -> task.getEndDate().isBefore(LocalDate.now());
 
+    private final Predicate<Task> TASK_IS_ALREADY_REPLACED_ONCE = (task) -> demandService.isTaskAReplaced(task.getId());
+
     private final Predicate<Task> TASK_CREATOR_NOT_THE_AUTHENTICATED_USER = task -> !task.getCreatedBy().equals(auth.getCurrentAuthenticatedUser());
 
     private final Predicate<Task> TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER = task -> !task.getAssignedTo().equals(auth.getCurrentAuthenticatedUser());
 
-    private final Predicate<Task> THE_AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR = task -> TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER.test(task) || TASK_CREATOR_NOT_THE_AUTHENTICATED_USER.test(task);
+    private final Predicate<Task> AUTHENTICATED_USER_IS_NOT_THE_ASSIGNEE_OR_CREATOR = task -> TASK_ASSIGNEE_NOT_THE_AUTHENTICATED_USER.test(task) || TASK_CREATOR_NOT_THE_AUTHENTICATED_USER.test(task);
 
     private final Predicate<Void> AUTHENTICATED_USER_CAN_NOT_USE_DELETE_CARD = (Void) -> !cardService.userCanUseDeleteCard(auth.getCurrentAuthenticatedUser());
 
