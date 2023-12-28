@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -22,9 +23,8 @@ public class DemandConverter {
         return DemandReplacement.builder()
                 .id(null)
                 .description(demandRequest.getDescription())
-                .dateDemand(LocalDate.now())
-                .CurrentTask(taskService.getById(demandRequest.getCurrentTask_id()))
-                .newTask(taskService.getById(demandRequest.getNewTask_id()))
+                .dateDemand(LocalDateTime.now())
+                .task(taskService.getById(demandRequest.getTaskId()))
                 .demandedBy(authenticationService.getCurrentAuthenticatedUser())
                 .status(DemandStatus.PENDING)
                 .build();

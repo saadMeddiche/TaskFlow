@@ -11,11 +11,8 @@ import lombok.*;
 public class DemandRequest {
 
 
-    @NotNull(message = "The current Task id can not be null")
-    private Long currentTask_id;
-
-    @NotNull(message = "The new Task id can not be null")
-    private Long newTask_id;
+    @NotNull(message = "The Task id can not be null")
+    private Long taskId;
 
     private String description;
 

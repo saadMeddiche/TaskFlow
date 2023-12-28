@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Builder
 @AllArgsConstructor
@@ -20,14 +22,11 @@ public class DemandReplacement {
     private Long id;
 
     @ManyToOne
-    private Task CurrentTask;
-
-    @ManyToOne
-    private Task newTask;
+    private Task task;
 
     private String description;
 
-    private LocalDate dateDemand;
+    private LocalDateTime dateDemand;
 
     @ManyToOne
     private User demandedBy;
