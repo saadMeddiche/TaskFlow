@@ -1,7 +1,6 @@
-# Validation when making a demand
-- DemandValidationService: [Link](src/main/java/com/taskflow/taskmanagement/services/validations/DemandValidationService.java)
-![](reademeimages/ValidationDemandCreation.PNG)
+# Main Classes
+- Scheduling : [Link](src/main/java/com/taskflow/taskmanagement/schedulations/RestoreNumberOfUtilisationOfCards.java)
+![](reademeimages/Schedule.PNG)
 
-# Validation when deleting a task
-- TaskValidationService: [Link](src/main/java/com/taskflow/taskmanagement/services/validations/TaskValidationService.java)
-![](reademeimages/ValidateTaskOnDeleting.PNG)
+- Card Repository : [Link](src/main/java/com/taskflow/taskmanagement/repositories/CardRepository.java)
+![](reademeimages/CardRepositiry.PNG)
