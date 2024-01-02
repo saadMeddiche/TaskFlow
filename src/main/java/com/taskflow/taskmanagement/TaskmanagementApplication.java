@@ -16,6 +16,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,9 @@ import java.util.stream.IntStream;
 
 @SpringBootApplication
 @AllArgsConstructor
+@EnableScheduling
+//https://www.baeldung.com/spring-scheduled-tasks
+//https://www.baeldung.com/cron-expressions
 public class TaskmanagementApplication {
 
 	private final UserRepository userRepository;
