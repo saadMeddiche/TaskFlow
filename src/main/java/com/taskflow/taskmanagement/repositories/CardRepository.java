@@ -19,6 +19,6 @@ public interface CardRepository extends BaseRepository<Card> {
 
     @Modifying
     @Query( "UPDATE Card c SET c.numberOfUtilisation = 4 WHERE c.type = 'Modification' AND c.user.id in " +
-            "(SELECT d.demandedBy.id FROM DemandReplacement d WHERE  d.status = 'PENDING' AND d.demandedBy.id = c.user.id AND FUNCTION('DATEDIFF', 'MINUTE' ,now(), d.dateDemand) <= 12)")
+            "(SELECT d.demandedBy.id FROM DemandReplacement d WHERE  d.status = 'PENDING' AND d.demandedBy.id = c.user.id )")
     void updateModificationCardsIfDemandIsPending();
 }

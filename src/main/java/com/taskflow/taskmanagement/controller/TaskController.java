@@ -93,9 +93,9 @@ public class TaskController {
         return new ResponseEntity<>(tasks , HttpStatus.OK);
     }
 
-    @GetMapping("/filterTasksByMonth/{month}")
-    public ResponseEntity<?> filterTasksByMonth(@PathVariable int month) {
-        List<Task> tasks = taskService.filterTasksByMonth(month);
+    @GetMapping("/filterTasksByMonth/{year}/{month}")
+    public ResponseEntity<?> filterTasksByMonth( @PathVariable int year , @PathVariable int month) {
+        List<Task> tasks = taskService.filterTasksByMonth( year , month);
         return new ResponseEntity<>(tasks , HttpStatus.OK);
     }
 }
