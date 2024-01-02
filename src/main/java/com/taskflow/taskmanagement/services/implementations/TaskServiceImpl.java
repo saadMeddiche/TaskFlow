@@ -13,6 +13,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
@@ -90,5 +92,15 @@ public class TaskServiceImpl implements TaskService {
 
         taskRepository.deleteById(task.getId());
 
+    }
+
+    @Override
+    public List<Task> filterTasksByYear(int year) {
+        return taskRepository.findAll().stream().filter(task -> task.getStartDate().getYear() == year).toList();
+    }
+
+    @Override
+    public List<Task> filterTasksByMonth(int year , int month) {
+        return taskRepository.findAll().stream().filter(task -> task.getStartDate().getYear() == year && task.getStartDate().getMonthValue() == month).toList();
     }
 }

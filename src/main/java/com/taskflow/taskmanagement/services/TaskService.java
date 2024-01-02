@@ -2,6 +2,8 @@ package com.taskflow.taskmanagement.services;
 
 import com.taskflow.taskmanagement.entities.Task;
 
+import java.util.List;
+
 public interface TaskService {
 
     public Task createTask(Task task);
@@ -20,4 +22,8 @@ public interface TaskService {
     public void demandReplacement(Task task);
 
     public void deleteTask(Task task);
+
+    public List<Task> filterTasksByYear(int year);
+
+    public List<Task> filterTasksByMonth(int year ,int month);
 }
