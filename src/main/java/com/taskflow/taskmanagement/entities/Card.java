@@ -7,6 +7,7 @@ import com.taskflow.taskmanagement.costumValidations.EnumValue;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
 @Builder
@@ -22,10 +23,10 @@ public class Card {
     private Long id;
 
     @NotNull(message = "Name of card cannot be null")
-    @Positive(message = "Number of utilisation cannot be negative or zero")
+    @PositiveOrZero(message = "Number of utilisation cannot be negative")
     private Integer numberOfUtilisation;
 
-    @NotNull(message = "Name of card cannot be null")
+    @NotNull(message = "The User of card cannot be null")
     @ManyToOne
     @JsonIgnoreProperties("cards")
     private User user;

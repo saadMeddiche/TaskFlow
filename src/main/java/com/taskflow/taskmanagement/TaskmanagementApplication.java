@@ -1,29 +1,39 @@
 package com.taskflow.taskmanagement;
 
-import com.taskflow.taskmanagement.entities.Permission;
-import com.taskflow.taskmanagement.entities.Role;
-import com.taskflow.taskmanagement.entities.Tag;
-import com.taskflow.taskmanagement.entities.User;
+import com.taskflow.taskmanagement.entities.*;
+import com.taskflow.taskmanagement.enums.CardType;
+import com.taskflow.taskmanagement.enums.RangeType;
+import com.taskflow.taskmanagement.permissions.DemandPermissions;
 import com.taskflow.taskmanagement.permissions.TagPermissions;
 import com.taskflow.taskmanagement.permissions.TaskPermissions;
+import com.taskflow.taskmanagement.repositories.CardRepository;
 import com.taskflow.taskmanagement.repositories.TagRepository;
 import com.taskflow.taskmanagement.repositories.UserRepository;
+import com.taskflow.taskmanagement.services.CardService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @SpringBootApplication
 @AllArgsConstructor
+@EnableScheduling
+//https://www.baeldung.com/spring-scheduled-tasks
+//https://www.baeldung.com/cron-expressions
 public class TaskmanagementApplication {
 
 	private final UserRepository userRepository;
 	private final TagRepository tagRepository;
+	private final CardRepository cardRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TaskmanagementApplication.class, args);
@@ -37,10 +47,14 @@ public class TaskmanagementApplication {
 			public void run(ApplicationArguments args) {
 				createDefaultDataForOfUsers();
 				createDefaultTags();
+				createDefaultCard();
 			}
 		};
 	}
-
+	@Bean
+	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+		return new JdbcTemplate(dataSource);
+	}
 
 	private void createDefaultDataForOfUsers(){
 
@@ -52,6 +66,7 @@ public class TaskmanagementApplication {
 		permissions.add(new Permission(4L , TaskPermissions.ASSIGN_ADDITIONAL_TASK.name()));
 		permissions.add(new Permission(5L , TaskPermissions.CREATE_TASK.name()));
 		permissions.add(new Permission(6L , TaskPermissions.CHANGE_TASK_STATUS.name()));
+		permissions.add(new Permission(7L , DemandPermissions.MAKE_DEMAND.name()));
 //		permissions.add(new Permission(6L , TaskPermissions.MARK_TASK_AS_DONE.name()));
 //		permissions.add(new Permission(7L , TaskPermissions.REPLACE_TASK.name()));
 //		permissions.add(new Permission(8L , TaskPermissions.DEMAND_REPLACEMENT.name()));
@@ -87,6 +102,31 @@ public class TaskmanagementApplication {
 
 		tagRepository.saveAll(tags);
 
+	}
+
+	private void createDefaultCard() {
+
+		List<User> users = userRepository.findAll();
+
+		IntStream.range(0,  5)
+				.forEach(index -> {
+					User user = users.get(index);
+
+					Card cardDeletion = createCard(index * 2 + 1, user, 1, CardType.Deletion, RangeType.PerMonth);
+					Card cardModification = createCard(index * 2 + 2, user, 2, CardType.Modification, RangeType.PerDay);
+
+					cardRepository.saveAll(List.of(cardDeletion, cardModification));
+				});
+	}
+
+	private Card createCard(long id, User user, int numberOfUtilisation, CardType type, RangeType rangeType) {
+		return Card.builder()
+				.id(id)
+				.user(user)
+				.numberOfUtilisation(numberOfUtilisation)
+				.type(type)
+				.rangeType(rangeType)
+				.build();
 	}
 
 

@@ -113,7 +113,7 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public boolean checkIfUserCanUseModifyCard(User user) {
+    public boolean userCanUseModifyCard(User user) {
         return user.getCards()
                 .stream()
                 .filter(card -> card.getType().equals(CardType.Modification))
@@ -123,7 +123,7 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public boolean checkIfUserCanUseDeleteCard(User user) {
+    public boolean userCanUseDeleteCard(User user) {
         return user.getCards()
                 .stream()
                 .filter(card -> card.getType().equals(CardType.Deletion))

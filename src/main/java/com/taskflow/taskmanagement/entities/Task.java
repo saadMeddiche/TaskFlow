@@ -54,7 +54,7 @@ public class Task {
     @Enumerated(value = EnumType.STRING)
     private TaskStatus status;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "task_tag",
             joinColumns = @JoinColumn(name = "task_id"),

@@ -11,7 +11,7 @@ public interface CardService {
     public void useModifyCard(User user);
     public void useDeleteCard(User user);
 
-    public boolean checkIfUserCanUseModifyCard(User user);
+    public boolean userCanUseModifyCard(User user);
 
-    public boolean checkIfUserCanUseDeleteCard(User user);
+    public boolean userCanUseDeleteCard(User user);
 }

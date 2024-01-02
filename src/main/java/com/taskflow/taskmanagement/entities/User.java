@@ -58,7 +58,7 @@ public class User implements UserDetails {
     @JsonIgnoreProperties({"users" , "permissions"})
     private List<Role> roles;
 
-    @OneToMany
+    @OneToMany(mappedBy =  "user" , cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")
     private List<Card> cards;
 
@@ -91,8 +91,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.printf(this.roles.toString());
-
         return roles.stream()
                 .flatMap(role -> role.getPermissions().stream())
                 .map(permission -> new SimpleGrantedAuthority(permission.getName()))
